@@ -8,23 +8,30 @@ import axios from "axios";
 const username = ref("");
 const password = ref("");
 
+const error = ref(false)
+
 function login() {
   console.log(username.value)
-  axios.post("http://194.87.206.68/login",
-      {
-        "login": username.value,
-        "password": password.value
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        }
-      }
-  ).then((response) => {
-    if (response.status === 200) {
-      router.push("/journal")
-    }
-  })
+  if (username.value === "user" && password.value === "123"){
+    router.push("/journal")
+  }else{
+    error.value = true
+  }
+  // axios.post("http://194.87.206.68/login",
+  //     {
+  //       "login": username.value,
+  //       "password": password.value
+  //     },
+  //     {
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       }
+  //     }
+  // ).then((response) => {
+  //   if (response.status === 200) {
+  //     router.push("/journal")
+  //   }
+  // })
 }
 </script>
 
@@ -33,7 +40,9 @@ function login() {
   <div class="d-flex justify-content-center align-items-center py-5" style="height: 80vh">
     <div class="col-4 card ">
       <div class="card-body">
-
+        <div class="alert alert-danger" role="alert" v-if="error">
+          Неправильный логин или пароль
+        </div>
         <div class="form-group my-3">
           <label for="username" class="form-label">Имя пользователя</label>
           <input type="text" name="username" id="username" class="form-control" v-model="username">
