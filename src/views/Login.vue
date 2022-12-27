@@ -17,21 +17,7 @@ function login() {
   }else{
     error.value = true
   }
-  // axios.post("http://194.87.206.68/login",
-  //     {
-  //       "login": username.value,
-  //       "password": password.value
-  //     },
-  //     {
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       }
-  //     }
-  // ).then((response) => {
-  //   if (response.status === 200) {
-  //     router.push("/journal")
-  //   }
-  // })
+
 }
 </script>
 
