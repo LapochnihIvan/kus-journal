@@ -3,6 +3,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import router from "@/router";
 import {ref} from "vue";
 import axios from "axios";
+import {URL} from "@/utils/config";
 
 
 const username = ref("");
@@ -11,12 +12,23 @@ const password = ref("");
 const error = ref(false)
 
 function login() {
-  console.log(username.value)
-  if (username.value === "user" && password.value === "123"){
-    router.push("/journal")
-  }else{
-    error.value = true
-  }
+  axios({
+    method:"POST",
+    url: URL+"/login",
+    data: {
+      "login": username.value,
+      "password": password.value
+    }
+  }).then((response)=>{
+    if (response.status === 200){
+      localStorage.setItem("user", JSON.stringify(response.data));
+      console.log(response.data);
+      router.push({name: "home"});
+    }else{
+      console.log(response);
+      error.value = true;
+    }
+  })
 
 }
 </script>
