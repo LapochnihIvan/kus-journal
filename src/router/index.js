@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import {login_required} from "@/utils/authorisation";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -9,9 +10,15 @@ const router = createRouter({
       component: ()=>import("@/views/teachers/JournalView.vue")
     },
     {
+      path: '/login',
+      name: 'login',
+      component: ()=>import("@/views/system_functions/Login.vue")
+    },
+    {
       path: '/',
       name: 'home',
-      component: ()=>import("@/views/Login.vue")
+      beforeEnter: login_required,
+      component: ()=>import("@/views/Home.vue")
     },
   ]
 })
