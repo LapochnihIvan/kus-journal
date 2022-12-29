@@ -4,6 +4,8 @@ import MainHeader from "@/components/base/MainHeader.vue";
 </script>
 
 <template>
-  <MainHeader/>
-  <router-view></router-view>
+  <div style="height: 100vh">
+    <MainHeader/>
+    <router-view></router-view>
+  </div>
 </template>
