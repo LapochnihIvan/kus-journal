@@ -23,7 +23,7 @@ function login() {
     if (response.status === 200){
       localStorage.setItem("user", JSON.stringify(response.data));
       console.log(response.data);
-      router.push({name: "home"});
+      router.push({name: "homepage"});
     }else{
       console.log(response);
       error.value = true;
