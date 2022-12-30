@@ -4,6 +4,7 @@ import router from "@/router";
 import {ref} from "vue";
 import axios from "axios";
 import {URL} from "@/utils/config";
+import {CreateMessage} from "@/components/messages/utils";
 
 
 const username = ref("");
@@ -22,10 +23,9 @@ function login() {
   }).then((response)=>{
     if (response.status === 200){
       localStorage.setItem("user", JSON.stringify(response.data));
-      console.log(response.data);
+      CreateMessage("Вы вошли", "success")
       router.push({name: "homepage"});
     }else{
-      console.log(response);
       error.value = true;
     }
   })

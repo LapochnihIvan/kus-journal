@@ -2,6 +2,7 @@
 import ListItem from "@/components/home/ListItem.vue";
 import UserItem from "@/components/home/UserItem.vue";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import MessageBlock from "@/components/messages/MessageBlock.vue";
 
 </script>
 
@@ -14,7 +15,10 @@ import "bootstrap-icons/font/bootstrap-icons.css";
       </ul>
       <UserItem/>
     </div>
-    <div class="col-11"><router-view></router-view></div>
+    <div class="col-11">
+      <MessageBlock/>
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
