@@ -11,6 +11,7 @@ import MessageBlock from "@/components/messages/MessageBlock.vue";
     <div class="d-flex flex-column flex-shrink-0 bg-light col-1" style="width: 4.5rem">
       <ul class="nav flex-column mb-auto text-center ">
         <ListItem icon="bi-house-fill"/>
+
         <ListItem icon="bi-table"/>
       </ul>
       <UserItem/>
