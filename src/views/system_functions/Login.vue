@@ -5,6 +5,7 @@ import {ref} from "vue";
 import axios from "axios";
 import {URL} from "@/utils/config";
 import {CreateMessage} from "@/components/messages/utils";
+import MessageBlock from "@/components/messages/MessageBlock.vue";
 
 
 const username = ref("");
@@ -21,13 +22,11 @@ function login() {
       "password": password.value
     }
   }).then((response)=>{
-    if (response.status === 200){
       localStorage.setItem("user", JSON.stringify(response.data));
       CreateMessage("Вы вошли", "success")
       router.push({name: "homepage"});
-    }else{
-      error.value = true;
-    }
+  }).catch(()=>{
+    error.value = true;
   })
 
 }
@@ -38,6 +37,7 @@ function login() {
   <div class="d-flex justify-content-center align-items-center py-5" style="height: 80vh">
     <div class="col-4 card ">
       <div class="card-body">
+        <MessageBlock/>
         <div class="alert alert-danger" role="alert" v-if="error">
           Неправильный логин или пароль
         </div>
