@@ -3,7 +3,9 @@ import ListItem from "@/components/home/ListItem.vue";
 import UserItem from "@/components/home/UserItem.vue";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import MessageBlock from "@/components/messages/MessageBlock.vue";
+import {reactive} from "vue";
 
+const user = reactive(JSON.parse(localStorage.getItem("user")))
 </script>
 
 <template>
@@ -12,11 +14,11 @@ import MessageBlock from "@/components/messages/MessageBlock.vue";
       <ul class="nav flex-column mb-auto text-center ">
         <ListItem icon="bi-house-fill"/>
 
-        <ListItem icon="bi-table"/>
+        <ListItem icon="bi-table" :href="{name: 'journal'}" v-if="user.role.includes('teacher')"/>
       </ul>
       <UserItem/>
     </div>
-    <div class="col-11">
+    <div class="col-11 mx-auto">
       <MessageBlock/>
       <router-view></router-view>
     </div>

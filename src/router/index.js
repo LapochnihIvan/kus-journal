@@ -10,7 +10,7 @@ const router = createRouter({
     {
       path: '/journal',
       name: 'journal',
-      component: ()=>import("@/views/teachers/JournalView.vue")
+      component: ()=>import("@/views/journal/JournalView.vue")
     },
     {
       path: '/login',
