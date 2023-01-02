@@ -1,7 +1,7 @@
 <script setup>
 import {computed, ref, watch} from "vue";
 
-const props = defineProps(["journals"])
+const props = defineProps(["journals", "grades", "groups"])
 const emit = defineEmits(["setJournal"])
 
 const subjects = computed(() => {
@@ -15,11 +15,15 @@ const subjects = computed(() => {
 })
 const selected_subject = ref('')
 
-const grades = computed(() => {
+const s_grades = computed(() => {
   let grades = []
   for (let journal of props.journals) {
     if (!grades.includes(journal.group_id) && journal.subject === selected_subject.value) {
-      grades.push(journal.group_id)
+      if (journal.is_group){
+        grades.push(props.groups.filter((g)=>{return g.id === journal.group_id })[0])
+      }else{
+        grades.push(props.grades.filter((g)=>{return g.id === journal.group_id })[0])
+      }
     }
   }
   return grades
@@ -30,7 +34,7 @@ watch(selected_grade, (new_grade) => {
   const selected = props.journals.filter((journal) => {
     return journal.group_id === selected_grade.value && journal.subject === selected_subject.value
   })[0]
-
+  console.log(selected)
   if (selected) {
     emit("setJournal", selected);
   }
@@ -48,7 +52,7 @@ watch(selected_grade, (new_grade) => {
       <select class="form-select " aria-label="Default select example"
               :disabled="selected_subject===''"
               v-model="selected_grade">
-        <option v-for="grade in grades" :value="grade">{{ grade }}</option>
+        <option v-for="grade in s_grades" :value="grade.id">{{ grade.name }}</option>
       </select>
     </div>
   </div>
