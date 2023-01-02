@@ -3,9 +3,12 @@ import axios from "axios";
 import {computed, ref} from "vue";
 import {URL} from "@/utils/config";
 import SelectionBlock from "@/components/journal/SelectionBlock.vue";
+import TableHeader from "@/components/journal/TableHeader.vue";
+import TableBody from "@/components/journal/TableBody.vue";
 
 const journals = ref([])
 const selected = ref();
+
 let user = JSON.parse(localStorage.getItem("user"))
 
 axios.get(URL+"/journal/"+user.id, {
@@ -15,6 +18,7 @@ axios.get(URL+"/journal/"+user.id, {
 }).then((response)=>{
   journals.value = response.data["journals"]
 })
+
 
 const grades = computed(()=>{
   let grades = []
@@ -31,6 +35,8 @@ const grades = computed(()=>{
   }
   return grades
 })
+
+
 const groups = computed(()=>{
   let group = []
   for(let journal of journals.value){
@@ -46,6 +52,24 @@ const groups = computed(()=>{
   }
   return group
 })
+const student_list = computed(()=>{
+  if (selected.is_group){
+    return groups.value.filter((group)=>{return group.id === selected.group_id})[0].students
+  }else{
+    return grades.value.filter((grades)=>{return grade.id === selected.group_id})[0].students
+  }
+})
+
+const SetJournal = (journal) =>{
+  journal.lessons.sort((a, b)=>{
+    let date_a = new Date(a.date)
+    let date_b = new Date(b.date)
+    if(date_a<date_b){return -1}
+    if(date_a===date_b){return 0}
+    if(date_a>date_b){return 1}
+  })
+  selected.value = journal
+}
 </script>
 
 
@@ -54,8 +78,11 @@ const groups = computed(()=>{
   <SelectionBlock :journals="journals"
                   :grades="grades"
                   :group="groups"
-                  @set-journal="(journal)=>{selected = journal}"/>
-  {{ selected }}
+                  @set-journal="SetJournal"/>
+  <table class="table table-striped table-bordered" v-if="selected">
+    <TableHeader :lessons="selected.lessons"/>
+    <TableBody :students="student_list" :marks="selected.marks" :lessons="selected.lessons"/>
+  </table>
 </template>
 
 <style scoped>

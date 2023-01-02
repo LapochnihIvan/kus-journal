@@ -6,13 +6,18 @@ const props = defineProps({
     },
 })
 
+const MakeDate = (str)=>{
+  let date = new Date(str)
+  return `${String(date.getDate()).padStart(2, '0')}.${String(date.getMonth() + 1).padStart(2, '0')}`
+}
+
 </script>
 
 <template>
     <thead>
     <tr>
         <th scope="col" style="width: 15%;">Имя</th>
-        <th scope="col" style="" v-for="lesson in lessons">{{lesson.date.split('-')[0]}}.{{lesson.date.split('-')[1]}}</th>
+        <th scope="col" style="" v-for="lesson in lessons">{{MakeDate(lesson.date)}}</th>
     </tr>
     </thead>
 </template>
