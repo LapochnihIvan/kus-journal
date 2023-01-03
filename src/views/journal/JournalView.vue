@@ -6,6 +6,7 @@ import SelectionBlock from "@/components/journal/SelectionBlock.vue";
 import TableHeader from "@/components/journal/TableHeader.vue";
 import TableBody from "@/components/journal/TableBody.vue";
 import ThemeBlock from "@/components/journal/ThemeBlock.vue";
+import LessonModal from "@/components/journal/LessonModal.vue";
 
 const journals = ref([])
 const selected = ref('');
@@ -86,6 +87,7 @@ const SetJournal = (journal) => {
 }
 
 const show_themes = ref(false)
+const modal_lesson = ref('')
 </script>
 
 
@@ -97,19 +99,20 @@ const show_themes = ref(false)
                   :show_themes="show_themes"
                   @set-journal="SetJournal"
                   @set-show="(show)=>{show_themes=show}"/>
+  <LessonModal :lesson="modal_lesson"/>
   <div class="row">
     <div :class="show_themes?'col-9':'col-12'">
       <table class="table table-striped table-bordered" v-if="selected">
-        <TableHeader :lessons="selected.lessons"/>
+        <TableHeader :lessons="selected.lessons" @set-modal-lesson="(lesson)=>{modal_lesson=lesson}"/>
         <TableBody :students="student_list" :marks="selected.marks" :lessons="selected.lessons"/>
       </table>
     </div>
-    <div class="col-3" v-if="show_themes">
-      <ThemeBlock :lessons="selected.lessons"/>
-    </div>
+
+      <div class="col-3" v-if="show_themes">
+        <ThemeBlock :lessons="selected.lessons" @set-modal-lesson="(lesson)=>{modal_lesson=lesson}"/>
+      </div>
   </div>
 </template>
 
 <style scoped>
-
 </style>

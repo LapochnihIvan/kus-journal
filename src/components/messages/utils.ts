@@ -1,4 +1,4 @@
-export const CreateMessage = (data, type) => {
+export function CreateMessage(data: string, type: string): void{
     if (localStorage.getItem("messages") != null) {
         let old_messages = JSON.parse(localStorage.getItem("messages"));
         old_messages.push({
