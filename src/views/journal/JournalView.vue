@@ -5,31 +5,31 @@ import {URL} from "@/utils/config";
 import SelectionBlock from "@/components/journal/SelectionBlock.vue";
 import TableHeader from "@/components/journal/TableHeader.vue";
 import TableBody from "@/components/journal/TableBody.vue";
+import ThemeBlock from "@/components/journal/ThemeBlock.vue";
 
 const journals = ref([])
-const selected = ref();
+const selected = ref('');
 
 let user = JSON.parse(localStorage.getItem("user"))
 
-axios.get(URL+"/journal/"+user.id, {
+axios.get(URL + "/journal/" + user.id, {
   headers: {
     token: user.token
   }
-}).then((response)=>{
+}).then((response) => {
   journals.value = response.data["journals"]
 })
 
 
-const grades = computed(()=>{
+const grades = computed(() => {
   let grades = []
-  for(let journal of journals.value){
-    if (!journal.is_group){
-      axios.get(URL+"/grade/"+journal.group_id, {
+  for (let journal of journals.value) {
+    if (!journal.is_group) {
+      axios.get(URL + "/grade/" + journal.group_id, {
         headers: {
           token: user.token
         }
-      }).then((response)=>{
-        // console.log(response.data)
+      }).then((response) => {
         grades.push(response.data)
       })
     }
@@ -38,16 +38,16 @@ const grades = computed(()=>{
 })
 
 
-const groups = computed(()=>{
+const groups = computed(() => {
   let group = []
-  for(let journal of journals.value){
+  for (let journal of journals.value) {
 
-    if (journal.is_group){
-      axios.get(URL+"/group/"+journal.group_id, {
+    if (journal.is_group) {
+      axios.get(URL + "/group/" + journal.group_id, {
         headers: {
           token: user.token
         }
-      }).then((response)=>{
+      }).then((response) => {
 
         group.push(response.data)
       })
@@ -55,25 +55,37 @@ const groups = computed(()=>{
   }
   return group
 })
-const student_list = computed(()=>{
-  if (selected.value.is_group){
-    return groups.value.filter((group)=>{return group.id === selected.value.group_id})[0].students
-  }else{
+const student_list = computed(() => {
+  if (selected.value.is_group) {
+    return groups.value.filter((group) => {
+      return group.id === selected.value.group_id
+    })[0].students
+  } else {
 
-    return grades.value.filter((grade)=>{return grade.id === selected.value.group_id})[0].students
+    return grades.value.filter((grade) => {
+      return grade.id === selected.value.group_id
+    })[0].students
   }
 })
 
-const SetJournal = (journal) =>{
-  journal.lessons.sort((a, b)=>{
+const SetJournal = (journal) => {
+  journal.lessons.sort((a, b) => {
     let date_a = new Date(a.date)
     let date_b = new Date(b.date)
-    if(date_a<date_b){return -1}
-    if(date_a===date_b){return 0}
-    if(date_a>date_b){return 1}
+    if (date_a < date_b) {
+      return -1
+    }
+    if (date_a === date_b) {
+      return 0
+    }
+    if (date_a > date_b) {
+      return 1
+    }
   })
   selected.value = journal
 }
+
+const show_themes = ref(true)
 </script>
 
 
@@ -83,10 +95,17 @@ const SetJournal = (journal) =>{
                   :grades="grades"
                   :group="groups"
                   @set-journal="SetJournal"/>
-  <table class="table table-striped table-bordered" v-if="selected">
-    <TableHeader :lessons="selected.lessons"/>
-    <TableBody :students="student_list" :marks="selected.marks" :lessons="selected.lessons"/>
-  </table>
+  <div class="row">
+    <div :class="show_themes?'col-9':'col-12'">
+      <table class="table table-striped table-bordered" v-if="selected">
+        <TableHeader :lessons="selected.lessons"/>
+        <TableBody :students="student_list" :marks="selected.marks" :lessons="selected.lessons"/>
+      </table>
+    </div>
+    <div class="col-3" v-if="show_themes">
+      <ThemeBlock :lessons="selected.lessons"/>
+    </div>
+  </div>
 </template>
 
 <style scoped>

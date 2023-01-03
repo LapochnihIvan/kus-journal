@@ -50,11 +50,11 @@ function SetMark(event, student, lesson, mark){
     <tbody>
     <tr v-for="student in students">
         <th scope="row">{{ student.surname }} {{ student.name[0] }}.</th>
-        <th scope="col" style="" v-for="lesson in lessons">
+        <td style="" v-for="lesson in lessons">
             <input type="text" class="form-control border-0 bg-transparent text-center"
                    :value="get_mark(student.id, lesson.id).value"
                    @input="SetMark($event, student, lesson, get_mark(student.id, lesson.id))">
-        </th>
+        </td>
     </tr>
     </tbody>
 </template>
