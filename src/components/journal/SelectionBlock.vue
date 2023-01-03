@@ -34,7 +34,6 @@ watch(selected_grade, (new_grade) => {
   const selected = props.journals.filter((journal) => {
     return journal.group_id === selected_grade.value && journal.subject === selected_subject.value
   })[0]
-  console.log(selected)
   if (selected) {
     emit("setJournal", selected);
   }

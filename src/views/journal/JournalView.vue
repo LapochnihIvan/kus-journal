@@ -29,6 +29,7 @@ const grades = computed(()=>{
           token: user.token
         }
       }).then((response)=>{
+        // console.log(response.data)
         grades.push(response.data)
       })
     }
@@ -40,12 +41,14 @@ const grades = computed(()=>{
 const groups = computed(()=>{
   let group = []
   for(let journal of journals.value){
+
     if (journal.is_group){
       axios.get(URL+"/group/"+journal.group_id, {
         headers: {
           token: user.token
         }
       }).then((response)=>{
+
         group.push(response.data)
       })
     }
@@ -53,10 +56,11 @@ const groups = computed(()=>{
   return group
 })
 const student_list = computed(()=>{
-  if (selected.is_group){
-    return groups.value.filter((group)=>{return group.id === selected.group_id})[0].students
+  if (selected.value.is_group){
+    return groups.value.filter((group)=>{return group.id === selected.value.group_id})[0].students
   }else{
-    return grades.value.filter((grades)=>{return grade.id === selected.group_id})[0].students
+
+    return grades.value.filter((grade)=>{return grade.id === selected.value.group_id})[0].students
   }
 })
 
