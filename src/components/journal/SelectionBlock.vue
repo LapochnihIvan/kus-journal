@@ -60,10 +60,9 @@ watch(selected_grade, (new_grade) => {
     </div>
     <div class="col-2 ms-auto">
       <button type="button"
-              class="btn"
-              :disabled="selected_grade===''"
-              @click="$emit('setShow', !show_themes)"
-              :class="show_themes?'btn-primary':'btn-primary'">
+              class="btn btn-primary"
+              v-if="selected_grade!==''"
+              @click="$emit('setShow', !show_themes)">
         {{ show_themes ? "Убрать темы" : "Показать темы" }}
       </button>
     </div>
