@@ -85,7 +85,7 @@ const SetJournal = (journal) => {
   selected.value = journal
 }
 
-const show_themes = ref(true)
+const show_themes = ref(false)
 </script>
 
 
@@ -94,7 +94,9 @@ const show_themes = ref(true)
   <SelectionBlock :journals="journals"
                   :grades="grades"
                   :group="groups"
-                  @set-journal="SetJournal"/>
+                  :show_themes="show_themes"
+                  @set-journal="SetJournal"
+                  @set-show="(show)=>{show_themes=show}"/>
   <div class="row">
     <div :class="show_themes?'col-9':'col-12'">
       <table class="table table-striped table-bordered" v-if="selected">

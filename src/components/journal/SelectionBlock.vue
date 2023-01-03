@@ -1,8 +1,8 @@
 <script setup>
 import {computed, ref, watch} from "vue";
 
-const props = defineProps(["journals", "grades", "groups"])
-const emit = defineEmits(["setJournal"])
+const props = defineProps(["journals", "grades", "groups", "show_themes"])
+const emit = defineEmits(["setJournal", "setShow"])
 
 const subjects = computed(() => {
   let subjects = []
@@ -19,10 +19,14 @@ const s_grades = computed(() => {
   let grades = []
   for (let journal of props.journals) {
     if (!grades.includes(journal.group_id) && journal.subject === selected_subject.value) {
-      if (journal.is_group){
-        grades.push(props.groups.filter((g)=>{return g.id === journal.group_id })[0])
-      }else{
-        grades.push(props.grades.filter((g)=>{return g.id === journal.group_id })[0])
+      if (journal.is_group) {
+        grades.push(props.groups.filter((g) => {
+          return g.id === journal.group_id
+        })[0])
+      } else {
+        grades.push(props.grades.filter((g) => {
+          return g.id === journal.group_id
+        })[0])
       }
     }
   }
@@ -54,5 +58,15 @@ watch(selected_grade, (new_grade) => {
         <option v-for="grade in s_grades" :value="grade.id">{{ grade.name }}</option>
       </select>
     </div>
+    <div class="col-2 ms-auto">
+      <button type="button"
+              class="btn"
+              :disabled="selected_grade===''"
+              @click="$emit('setShow', !show_themes)"
+              :class="show_themes?'btn-primary':'btn-primary'">
+        {{ show_themes ? "Убрать темы" : "Показать темы" }}
+      </button>
+    </div>
   </div>
+
 </template>

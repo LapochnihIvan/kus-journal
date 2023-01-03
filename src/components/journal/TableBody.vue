@@ -53,7 +53,8 @@ function SetMark(event, student, lesson, mark){
         <td style="" v-for="lesson in lessons">
             <input type="text" class="form-control border-0 bg-transparent text-center"
                    :value="get_mark(student.id, lesson.id).value"
-                   @input="SetMark($event, student, lesson, get_mark(student.id, lesson.id))">
+                   @input="SetMark($event, student, lesson, get_mark(student.id, lesson.id))"
+                   style="padding: 0">
         </td>
     </tr>
     </tbody>
