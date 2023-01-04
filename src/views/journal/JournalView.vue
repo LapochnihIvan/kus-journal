@@ -88,6 +88,10 @@ const SetJournal = (journal) => {
 
 const show_themes = ref(false)
 const modal_lesson = ref('')
+const SetLesson = (lesson)=>{
+  modal_lesson.value.homework = lesson.homework
+  modal_lesson.value.control = lesson.control
+}
 </script>
 
 
@@ -99,7 +103,7 @@ const modal_lesson = ref('')
                   :show_themes="show_themes"
                   @set-journal="SetJournal"
                   @set-show="(show)=>{show_themes=show}"/>
-  <LessonModal :lesson="modal_lesson"/>
+  <LessonModal :lesson="modal_lesson" @update-lesson="SetLesson"/>
   <div class="row">
     <div :class="show_themes?'col-9':'col-12'">
       <table class="table table-striped table-bordered" v-if="selected">
