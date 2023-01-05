@@ -13,7 +13,32 @@ axios.get(URL + '/all_users').then((response) => {
   users.value = response.data.users.filter((user) => {
     return (!user.role.includes("admin") && !user.role.includes("director")) || (JSON.parse(localStorage.getItem("user")).role.includes("admin"))
   })
+  users.value.sort((f, s)=>{
+    if (GetPriority(f.role)>GetPriority(s.role)){
+      return 1
+    }
+    if (GetPriority(f.role)<GetPriority(s.role)){
+      return -1
+    }
+    if (f.surname+f.name>s.surname+s.name){
+      return 1
+    }else{
+      return -1
+    }
+  })
 })
+
+const GetPriority=(el)=>{
+  if (el.includes("student")){
+    return 1
+  }else if (el.includes("teacher")||el.includes("grade_head")){
+    return 2
+  }else{
+    return 3
+  }
+}
+
+
 const GetRole = (raw)=>{
   const roles = {
     "student": "Обучающийся",
