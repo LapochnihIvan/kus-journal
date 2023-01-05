@@ -11,5 +11,10 @@ export const home_routes = [
         name: 'journal',
         beforeEnter: only_teacher,
         component: ()=>import("@/views/journal/JournalView.vue")
+    },
+    {
+        path: 'user',
+        name: 'user_management',
+        component: ()=>import("@/views/metodist/MakeUser.vue")
     }
 ]
