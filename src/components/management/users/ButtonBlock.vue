@@ -1,5 +1,5 @@
 <script setup>
-const emit = defineEmits(["setUser"]);
+const emit = defineEmits(["setUser", "setFilter"]);
 </script>
 
 
@@ -15,6 +15,9 @@ const emit = defineEmits(["setUser"]);
       <button type="button" class="btn btn-primary" disabled>
         Загрузить через файл
       </button>
+    </div>
+    <div class="col-2 ms-auto">
+      <input class="form-control me-2" type="search" placeholder="Поиск" aria-label="Search" @input="$emit('setFilter', $event.target.value)">
     </div>
   </div>
 </template>

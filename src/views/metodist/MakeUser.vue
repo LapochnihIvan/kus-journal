@@ -16,12 +16,14 @@ const ChangeUser = (user)=>{
   const modal = new Modal("#user")
   modal.toggle()
 }
+
+const filter = ref('')
 </script>
 
 <template>
-  <ButtonBlock @set-user="SetUser"/>
+  <ButtonBlock @set-user="SetUser" @set-filter="(Ifilter) =>{filter=Ifilter}"/>
   <UserModal :user="current_user"/>
-  <UserList @open-modal="ChangeUser"/>
+  <UserList @open-modal="ChangeUser" :filter_by="filter"/>
 </template>
 
 <style scoped>
