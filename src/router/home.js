@@ -16,5 +16,15 @@ export const home_routes = [
         path: 'user',
         name: 'user_management',
         component: ()=>import("@/views/metodist/MakeUser.vue")
+    },
+    {
+        path: 'plan',
+        name: 'plan_management',
+        component: ()=>import("@/views/metodist/MakePlan.vue")
+    },
+    {
+        path: 'grade',
+        name: 'grade_management',
+        component: ()=>import("@/views/metodist/MakeGrade.vue")
     }
 ]
