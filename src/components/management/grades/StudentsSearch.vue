@@ -9,9 +9,11 @@ const student_list = ref([])
 
 watch(props, () => {
   student_list.value = []
-  for (let student of props.students) {
-    student.selected = props.selected.includes(student.id)
-    student_list.value.push(JSON.parse(JSON.stringify(student)))
+  if (props.students && props.selected) {
+    for (let student of props.students) {
+      student.selected = props.selected.includes(student.id)
+      student_list.value.push(JSON.parse(JSON.stringify(student)))
+    }
   }
 })
 
@@ -28,13 +30,14 @@ const Send = () => {
       })
     }
   }
+
   emit("MakeList", ids)
 }
 </script>
 
 
 <template>
-  <div class="modal fade" id="student_search" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">

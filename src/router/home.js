@@ -26,5 +26,11 @@ export const home_routes = [
         path: 'grade',
         name: 'grade_management',
         component: ()=>import("@/views/metodist/MakeGrade.vue")
+    },
+    {
+        path: 'group/:grade',
+        name: 'group_management',
+
+        component: ()=>import("@/views/metodist/MakeGroup.vue")
     }
 ]

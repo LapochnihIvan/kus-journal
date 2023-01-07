@@ -31,9 +31,9 @@ const current_grade = reactive({
 const selected_teacher = ref('')
 
 watch(props, () => {
-  current_grade.id = props.grade.id === undefined?0:props.grade.id
+  current_grade.id = props.grade.id === undefined ? 0 : props.grade.id
   current_grade.name = props.grade.name
-  current_grade.students = props.grade.students === undefined?[]:props.grade.students
+  current_grade.students = props.grade.students === undefined ? [] : props.grade.students
   current_grade.head = props.grade.head
 })
 const GetId = computed(() => {
@@ -47,7 +47,6 @@ const GetId = computed(() => {
 })
 
 
-
 const SendGrade = () => {
   let id = []
   if (current_grade.students) {
@@ -56,34 +55,49 @@ const SendGrade = () => {
     }
   }
   axios({
-    url: URL+"/manage_grade",
+    url: URL + "/manage_grade",
     method: "POST",
-    data:{
+    data: {
       id: current_grade.id,
       name: current_grade.name,
       head: current_grade.head.id,
       students: id,
     },
-    headers:{
+    headers: {
       token: JSON.parse(localStorage.getItem("user")).token
     }
-  }).then((response)=>{
-      router.go()
+  }).then((response) => {
+    router.go()
   })
 }
 
 
-const newStudent = (Istudents)=>{
+const newStudent = (Istudents) => {
   current_grade.students = Istudents
   // console.log(Istudents, current_grade.students)
 }
 
+const a = ref()
 
+const send = () => {
+  axios({
+    url: URL + "/upload",
+    method: "POST",
+    data: {
+      a: a.value
+    },
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  }).then((res)=>{
+    console.log(res)
+  })
+}
 </script>
 
 <template>
   <StudentsSearch :back-i-d="'#grade'" :students="students" :selected="GetId"
-                  @make-list="newStudent"/>
+                  @make-list="newStudent" id="student_search"/>
   <div class="modal fade" id="grade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
        aria-labelledby="grade" aria-hidden="true">
     <div class="modal-dialog">
@@ -105,18 +119,20 @@ const newStudent = (Istudents)=>{
           </div>
 
           <div class="mb-3">
-            <button class="btn btn-primary" data-bs-target="#student_search" data-bs-toggle="modal">Выбрать
-              обучающихся
+            <button class="btn btn-primary" data-bs-target="#student_search" data-bs-toggle="modal">
+              Выбрать обучающихся
             </button>
           </div>
         </div>
         <div class="modal-footer">
+          <button type="button" class="btn btn-secondary"  @click="router.push({name: 'group_management', params:{grade: JSON.stringify(current_grade)}})" data-bs-dismiss="modal">Открыть группы</button>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
           <button type="button" class="btn btn-primary" @click="SendGrade" data-bs-dismiss="modal">Сохранить</button>
         </div>
       </div>
     </div>
   </div>
+
 </template>
 
 <style scoped>
