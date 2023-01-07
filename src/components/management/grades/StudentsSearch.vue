@@ -28,7 +28,6 @@ const Send = () => {
       })
     }
   }
-  console.log(ids)
   emit("MakeList", ids)
 }
 </script>

@@ -31,9 +31,9 @@ const current_grade = reactive({
 const selected_teacher = ref('')
 
 watch(props, () => {
-  current_grade.id = props.grade.id
+  current_grade.id = props.grade.id === undefined?0:props.grade.id
   current_grade.name = props.grade.name
-  current_grade.students = props.grade.students
+  current_grade.students = props.grade.students === undefined?[]:props.grade.students
   current_grade.head = props.grade.head
 })
 const GetId = computed(() => {
@@ -50,7 +50,7 @@ const GetId = computed(() => {
 
 const SendGrade = () => {
   let id = []
-  if (props.grade.students) {
+  if (current_grade.students) {
     for (let student of current_grade.students) {
       id.push(student.id)
     }
@@ -74,9 +74,8 @@ const SendGrade = () => {
 
 
 const newStudent = (Istudents)=>{
-  console.log(Istudents)
   current_grade.students = Istudents
-  console.log(current_grade)
+  // console.log(Istudents, current_grade.students)
 }
 
 

@@ -1,12 +1,12 @@
 <script setup>
-const emit = defineEmits(["setPlan", "setFilter"]);
+const emit = defineEmits(["setGrade", "setFilter"]);
 </script>
 
 
 <template>
   <div class="row my-3">
     <div class="col-2">
-      <button type="button" class="btn btn-primary" @click="$emit('setUser', {})" data-bs-toggle="modal"
+      <button type="button" class="btn btn-primary" @click="$emit('setGrade', {})" data-bs-toggle="modal"
               data-bs-target="#grade">
         Создать новый класс
       </button>
