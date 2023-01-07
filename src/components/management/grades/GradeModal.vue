@@ -36,11 +36,6 @@ watch(props, () => {
   current_grade.students = props.grade.students
   current_grade.head = props.grade.head
 })
-
-const SendGrade = () => {
-
-}
-
 const GetId = computed(() => {
   let id = []
   if (props.grade.students) {
@@ -51,11 +46,39 @@ const GetId = computed(() => {
   return id
 })
 
+
+
+const SendGrade = () => {
+  let id = []
+  if (props.grade.students) {
+    for (let student of current_grade.students) {
+      id.push(student.id)
+    }
+  }
+  axios({
+    url: URL+"/manage_grade",
+    method: "POST",
+    data:{
+      id: current_grade.id,
+      name: current_grade.name,
+      head: current_grade.head.id,
+      students: id,
+    },
+    headers:{
+      token: JSON.parse(localStorage.getItem("user")).token
+    }
+  }).then((response)=>{
+      router.go()
+  })
+}
+
+
 const newStudent = (Istudents)=>{
   console.log(Istudents)
   current_grade.students = Istudents
   console.log(current_grade)
 }
+
 
 </script>
 
