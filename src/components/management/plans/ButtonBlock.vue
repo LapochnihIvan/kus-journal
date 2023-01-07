@@ -6,8 +6,7 @@ const emit = defineEmits(["setPlan", "setFilter"]);
 <template>
   <div class="row my-3">
     <div class="col-2">
-      <button type="button" class="btn btn-primary" @click="$emit('setPlan', {})" data-bs-toggle="modal"
-              data-bs-target="#user">
+      <button type="button" class="btn btn-primary" @click="$emit('setPlan', {})">
         Создать новый план
       </button>
     </div>

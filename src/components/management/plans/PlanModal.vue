@@ -1,101 +1,91 @@
 <script setup>
-import {reactive, watch} from "vue";
+import {reactive, ref, watch} from "vue";
 import axios from "axios";
+import {FOR_ASSETS, URL} from "@/utils/config";
 import router from "@/router";
-import {URL} from "@/utils/config";
 
 const props = defineProps(["plan"])
 const emit = defineEmits(["reGet"])
 
-const current_user = reactive({
+const current_plan = reactive({
   id: '',
   name: '',
-  surname: '',
-  login: '',
-  password: '',
-  role: ['']
+  subject: '',
+  url: ''
 })
 watch(props, () => {
-  current_user.id = props.user.id
-  current_user.name = props.user.name
-  current_user.surname = props.user.surname
-  current_user.login = props.user.login
-  current_user.password = props.user.password
-  current_user.role = props.user.role
+  current_plan.id = props.plan.id === undefined ? 0 : props.plan.id
+  current_plan.name = props.plan.name
+  current_plan.subject = props.plan.subject
+  current_plan.url = props.plan.url === undefined ? '' : props.plan.url
+})
+const subjects = ref([])
+axios.get(URL + "/subjects").then((response) => {
+  subjects.value = response.data.subjects
 })
 
-const SendUser = () => {
+const file = ref()
 
-  let roles = []
-  for (let i of current_user.role){
-    roles.push(i)
-  }
-  axios({
-    method: "POST",
-    url: URL + "/manage_user",
-    data: {
-      id: current_user.id === undefined ? 0 : current_user.id,
-      name: current_user.name,
-      surname: current_user.surname,
-      login: current_user.login,
-      password: current_user.password,
-      role: roles
-    },
-    headers: {
-      token: JSON.parse(localStorage.getItem("user")).token
-    }
-  }).then(() => {
-        router.go();
-      }
-  )
+const FindId = (name)=>{
+  return subjects.value.filter((subject)=>{return subject.name === name})[0].id
 }
 
+const Send = () => {
+  let data = {}
+  data.id = current_plan.id
+  data.name = current_plan.name
+  data.subject = FindId(current_plan.subject)
+  if (file.value !== undefined){
+    data.filename = file.value.name
+    data.file = file.value
+  }
+  console.log(data)
+  axios({
+    url: URL + "/manage_plans",
+    data:data,
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      'token': JSON.parse(localStorage.getItem("user")).token
+    }
 
+  }).then((response)=>{
+    router.go()
+  })
+}
 </script>
 
 <template>
-  <div class="modal fade" id="user" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-       aria-labelledby="user" aria-hidden="true">
+  <div class="modal fade" id="plan" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="staticBackdropLabel">Работа с юзером</h1>
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Работа с планами</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <div class="mb-3">
             <label class="form-label">Имя</label>
-            <input type="text" class="form-control" v-model="current_user.name">
+            <input type="text" class="form-control" v-model="current_plan.name">
           </div>
           <div class="mb-3">
-            <label class="form-label">Фамилия</label>
-            <input type="text" class="form-control" v-model="current_user.surname">
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Логин</label>
-            <input type="text" class="form-control" v-model="current_user.login">
-            <div class="form-text">По этому логину будет осуществляться вход</div>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Пароль</label>
-            <input type="text" class="form-control" v-model="current_user.password">
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Выбрать роль</label>
-            <select class="form-control" v-model="current_user.role" multiple>
-              <option value="student">Обучающийся</option>
-              <option value="teacher">Педагог</option>
-              <option value="grade_head">Классный руководитель</option>
-              <option value="add_user">Разрешено управление юзерами</option>
-              <option value="add_journal">Разрешено управление журналами</option>
-              <option value="add_plan">Разрешено управление учебными планами</option>
+            <label class="form-label">Предмет</label>
+            <select class="form-select" v-model="current_plan.subject">
+              <option v-for="subject in subjects" :value="subject.name">{{ subject.name }}</option>
             </select>
+            <div class="form-text">Это короткое имя которое будет видеть педагог</div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Файл плана</label>
+            <p><a v-if="current_plan.url !== ''" :href="FOR_ASSETS+'/'+current_plan.url" download>Скачать текущий
+              план</a></p>
+            <input type="file" class="form-control" @change="(event)=>{file = event.target.files[0]}">
+            <div class="form-text">Планы автоматически обработаются в системе</div>
           </div>
         </div>
 
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-          <button type="button" class="btn btn-primary" @click="SendUser" data-bs-dismiss="modal">Сохранить</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="Send">Сохранить</button>
         </div>
       </div>
     </div>
