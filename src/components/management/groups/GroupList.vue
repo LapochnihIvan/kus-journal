@@ -8,18 +8,7 @@ const props = defineProps(['grade'])
 
 const groups = ref([])
 
-watch(props, () => {
-  axios.get(URL + "/all_groups", {
-    headers: {
-      token: JSON.parse(localStorage.getItem("user")).token
-    }
-  }).then((response) => {
-    console.log(response.data)
-    groups.value = response.data.groups.filter((group) => {
-      return group.grade === props.grade.id
-    })
-  })
-})
+
 axios.get(URL + "/all_groups", {
   headers: {
     token: JSON.parse(localStorage.getItem("user")).token
@@ -31,8 +20,10 @@ axios.get(URL + "/all_groups", {
   })
   for (let group of groups.value) {
     group.grade = props.grade
+
   }
 })
+
 
 const current_group = ref({})
 const setGroup = (group) => {
