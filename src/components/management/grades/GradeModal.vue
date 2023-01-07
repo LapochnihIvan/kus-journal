@@ -125,7 +125,7 @@ const send = () => {
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary"  @click="router.push({name: 'group_management', params:{grade: JSON.stringify(current_grade)}})" data-bs-dismiss="modal">Открыть группы</button>
+          <button type="button" class="btn btn-outline-primary me-auto"  @click="router.push({name: 'group_management', params:{grade: JSON.stringify(current_grade)}})" data-bs-dismiss="modal">Открыть группы</button>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
           <button type="button" class="btn btn-primary" @click="SendGrade" data-bs-dismiss="modal">Сохранить</button>
         </div>
