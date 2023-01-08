@@ -37,5 +37,10 @@ export const home_routes = [
         path: 'journal_manage',
         name: 'journal_management',
         component: ()=>import("@/views/metodist/MakeJournal.vue")
+    },
+    {
+        path: 'head_journal',
+        name: 'head_journal',
+        component: ()=>import("@/views/journal/HeadView.vue")
     }
 ]

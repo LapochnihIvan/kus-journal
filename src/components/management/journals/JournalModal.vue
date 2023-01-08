@@ -2,6 +2,7 @@
 import {ref, watch} from "vue";
 import axios from "axios";
 import {URL} from "@/utils/config";
+import router from "@/router";
 
 const props = defineProps(['currentJournal'])
 const groups = ref([])
@@ -30,6 +31,7 @@ axios.get(URL + '/all_groups').then(response => {
 axios.get(URL + '/all_plans').then(response => {
   plans.value = response.data.plans
 })
+const schedule = ref([0, 0, 0, 0, 0, 0, 0])
 
 const current_journal = ref({})
 watch(props, () => {
@@ -40,9 +42,15 @@ watch(props, () => {
   if (current_journal.value.is_group === undefined) {
     current_journal.value.is_group = false
   }
+  if (current_journal.value.schedule !== undefined){
+    for (let el of current_journal.value.schedule){
+
+      schedule.value[el-1] += 1
+    }
+  }
 })
 
-const schedule = ref([0, 0, 0, 0, 0, 0, 0])
+
 
 const Send = () => {
   let user = JSON.parse(localStorage.getItem("user"))
@@ -58,11 +66,18 @@ const Send = () => {
     methodist: user.id,
     is_group: current_journal.value.is_group,
     group_id: current_journal.value.group_id.id,
-    subject: current_journal.value.planName.subject,
-    plan: current_journal.value.planName.id,
+    subject: plans.value.filter(el=>{return el.name===current_journal.value.planName})[0].subject,
+    plan: plans.value.filter(el=>{return el.name===current_journal.value.planName})[0].id,
     school: user.school,
     schedule: days
   }
+  axios({
+    method: "POST",
+    url: URL+"/manage_journal",
+    data:data
+  }).then(()=>{
+    router.go()
+  })
   console.log(data)
 
 }
@@ -89,7 +104,7 @@ const Send = () => {
           <div class="mb-3">
             <label class="form-label">Учебный план</label>
             <select class="form-select" v-model="current_journal.planName">
-              <option v-for="plan in plans" :value="plan"> {{ plan.name }}</option>
+              <option v-for="plan in plans" :value="plan.name"> {{ plan.name }}</option>
             </select>
           </div>
           <div class="form-check mb-3">
