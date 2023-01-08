@@ -10,7 +10,13 @@ const emit = defineEmits(["setPlan"])
 const plans = ref([])
 
 axios.get(URL + "/all_plans").then((response) => {
-  plans.value = response.data.plans
+  plans.value = response.data.plans.sort((el1, el2)=>{
+    if (el1.name>el2.name){
+      return 1
+    }else{
+      return -1
+    }
+  })
 })
 
 const FilteredPlan = computed(() => {
