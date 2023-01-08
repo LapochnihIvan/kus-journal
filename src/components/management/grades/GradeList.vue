@@ -1,5 +1,5 @@
 <script setup>
-import {computed, ref} from "vue";
+import {computed, ref, watch} from "vue";
 import axios from "axios";
 import {URL} from "@/utils/config";
 import router from "@/router";
@@ -23,22 +23,28 @@ axios.get(URL + '/all_users').then((response) => {
   users.value = response.data.users;
 })
 
+watch(users, ()=>{
+  axios.get(URL + '/all_grades').then((response) => {
+    grades.value = response.data.grades
+    grades.value.sort((f, s) => {
+      if (GetPriority(f.name) > GetPriority(s.name)) {
+        return 1
+      }else{
+        return -1
+      }
 
-axios.get(URL + '/all_grades').then((response) => {
-  grades.value = response.data.grades
-  grades.value.sort((f, s) => {
-    if (GetPriority(f.name) > GetPriority(s.name)) {
-      return 1
-    }else{
-      return -1
+    })
+
+    for (let grade of grades.value){
+      grade.head = users.value.filter((user)=>{return user.id === grade.head})[0]
+      if (grade.head === undefined){
+        grade.head = {}
+      }
     }
-
+    grades.value.forEach(grade=>{grade.to_delete = false})
   })
-  for (let grade of grades.value){
-    grade.head = users.value.filter((user)=>{return user.id === grade.head})[0]
-  }
-  grades.value.forEach(grade=>{grade.to_delete = false})
 })
+
 
 
 const FilteredGrades = computed(() => {

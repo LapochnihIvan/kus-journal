@@ -14,10 +14,11 @@ const user = reactive(JSON.parse(localStorage.getItem("user")))
       <ul class="nav flex-column mb-auto text-center ">
         <ListItem icon="bi-house-fill"/>
 
-        <ListItem icon="bi-table" :href="{name: 'journal'}" v-if="user.role.includes('teacher')" :title="'Журнал'"/>
+        <ListItem icon="bi-book" :href="{name: 'journal'}" v-if="user.role.includes('teacher')" :title="'Журнал'"/>
         <ListItem icon="bi-person-gear" :href="{name:'user_management'}" v-if="user.role.includes('add_user')" :title="'Управление пользователями'"/>
         <ListItem icon="bi-calendar-event" :href="{name: 'plan_management'}" v-if="user.role.includes('add_plan')" :title="'Управление учебными планами'"/>
         <ListItem icon="bi-people" :href="{name: 'grade_management'}" v-if="user.role.includes('add_user')" :title="'Управление классами'"/>
+        <ListItem icon="bi-table" :href="{name: 'journal_management'}" v-if="user.role.includes('add_journal')" />
       </ul>
       <UserItem/>
     </div>

@@ -33,15 +33,17 @@ const FindId = (name)=>{
 const Send = () => {
   let data = {}
   data.id = current_plan.id
+  data.subject_id = FindId(current_plan.subject)
   data.name = current_plan.name
-  data.subject = FindId(current_plan.subject)
+
   if (file.value !== undefined){
     data.filename = file.value.name
     data.file = file.value
   }
   console.log(data)
   axios({
-    url: URL + "/manage_plans",
+    url: URL + "/manage_plan",
+    method: "POST",
     data:data,
     headers: {
       'Content-Type': 'multipart/form-data',

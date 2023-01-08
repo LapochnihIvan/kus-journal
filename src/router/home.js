@@ -32,5 +32,10 @@ export const home_routes = [
         name: 'group_management',
 
         component: ()=>import("@/views/metodist/MakeGroup.vue")
+    },
+    {
+        path: 'journal_manage',
+        name: 'journal_management',
+        component: ()=>import("@/views/metodist/MakeJournal.vue")
     }
 ]
