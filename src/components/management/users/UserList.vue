@@ -35,7 +35,8 @@ const GetRole = (raw) => {
     "grade_head": "Кл. руководитель",
     "add_user": "Упр. юзерами",
     "add_journal": "Упр. журналом",
-    "add_plan": "Упр. планами"
+    "add_plan": "Упр. планами",
+    "add_grade": "Упр. классами"
   }
   let ans = ""
   for (let role of raw) {

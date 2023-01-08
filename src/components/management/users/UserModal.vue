@@ -89,6 +89,7 @@ const SendUser = () => {
               <option value="add_user">Разрешено управление юзерами</option>
               <option value="add_journal">Разрешено управление журналами</option>
               <option value="add_plan">Разрешено управление учебными планами</option>
+              <option value="add_grade">Разрешено управление классами</option>
             </select>
           </div>
         </div>
