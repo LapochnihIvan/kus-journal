@@ -2,6 +2,7 @@
 import {computed, ref} from "vue";
 import axios from "axios";
 import {URL} from "@/utils/config";
+import router from "@/router";
 
 const props = defineProps(["filter_by"])
 const emit = defineEmits(["openModal"])
@@ -36,16 +37,29 @@ axios.get(URL + '/all_grades').then((response) => {
   for (let grade of grades.value){
     grade.head = users.value.filter((user)=>{return user.id === grade.head})[0]
   }
+  grades.value.forEach(grade=>{grade.to_delete = false})
 })
 
 
 const FilteredGrades = computed(() => {
-
-
   return grades.value.filter((grade)=>{
     return grade.name.toLowerCase().includes(props.filter_by.toLowerCase())
   })
 })
+
+const Delete = ()=>{
+  let id = []
+  grades.value.forEach(element=>{element.to_delete?id.push(element.id):''})
+  axios({
+    method: "POST",
+    url: URL+'/drop_grades',
+    data:{
+      grades: id
+    }
+  }).then((response)=>{
+    router.go()
+  })
+}
 </script>
 
 <template>
@@ -55,7 +69,7 @@ const FilteredGrades = computed(() => {
       <th>Имя</th>
       <th>Классный руководитель</th>
       <th style="width: 10%">Изменить</th>
-      <th style="width: 10%">Удалить</th>
+      <th style="width: 10%"><button class="btn btn-danger btn-sm" @click="Delete">Удалить</button></th>
     </tr>
     </thead>
     <tbody>
@@ -66,7 +80,7 @@ const FilteredGrades = computed(() => {
         <button class="btn btn-primary btn-sm" @click="$emit('openModal', grade)"><i class="bi bi-pencil-fill"></i>
         </button>
       </td>
-      <td></td>
+      <td><input type="checkbox" class="form-check-input" v-model="grade.to_delete"></td>
     </tr>
 
     </tbody>

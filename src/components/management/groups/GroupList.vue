@@ -3,6 +3,7 @@ import {ref, watch} from "vue";
 import axios from "axios";
 import {URL} from "@/utils/config";
 import GroupModal from "@/components/management/groups/GroupModal.vue";
+import router from "@/router";
 
 const props = defineProps(['grade'])
 
@@ -22,12 +23,29 @@ axios.get(URL + "/all_groups", {
     group.grade = props.grade
 
   }
+  groups.value.forEach(group=>{
+    group.to_delete = false
+  })
 })
 
 
 const current_group = ref({})
 const setGroup = (group) => {
   current_group.value = group
+}
+
+const Delete = ()=>{
+  let id = []
+  groups.value.forEach(element=>{element.to_delete?id.push(element.id):''})
+  axios({
+    method: "POST",
+    url: URL+'/drop_groups',
+    data:{
+      groups: id
+    }
+  }).then((response)=>{
+    router.go()
+  })
 }
 </script>
 
@@ -45,12 +63,12 @@ const setGroup = (group) => {
   </router-link>
 
 
-  <table class="table">
+  <table class="table text-center">
     <thead>
     <tr>
       <th>Имя</th>
       <th>Изменить</th>
-      <th>Удалить</th>
+      <th style="width: 10%"><button class="btn btn-danger btn-sm" @click="Delete">Удалить</button></th>
     </tr>
     </thead>
     <tbody>
@@ -61,7 +79,7 @@ const setGroup = (group) => {
                 data-bs-toggle="modal"><i class="bi bi-pencil-fill"></i>
         </button>
       </td>
-      <td></td>
+      <td><input type="checkbox" class="form-check-input" v-model="group.to_delete"></td>
     </tr>
     </tbody>
   </table>

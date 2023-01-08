@@ -3,6 +3,7 @@
 import {computed, ref, watch} from "vue";
 import axios from "axios";
 import {URL} from "@/utils/config";
+import router from "@/router";
 
 const props = defineProps(["filter_by"])
 const emit = defineEmits(["openModal"])
@@ -26,6 +27,7 @@ axios.get(URL + '/all_users').then((response) => {
       return -1
     }
   })
+  users.value.forEach(element=>{element.to_delete = false})
 })
 
 const GetRole = (raw) => {
@@ -65,7 +67,19 @@ const GetPriority = (el) => {
 }
 
 
-
+const Delete = ()=>{
+  let id = []
+  users.value.forEach(element=>{element.to_delete?id.push(element.id):''})
+  axios({
+    method: "POST",
+    url: URL+'/drop_users',
+    data:{
+      users: id
+    }
+  }).then((response)=>{
+    router.go()
+  })
+}
 
 </script>
 
@@ -77,7 +91,7 @@ const GetPriority = (el) => {
       <th>Роль</th>
       <th>Логин</th>
       <th style="width: 10%">Изменить</th>
-      <th style="width: 10%">Удалить</th>
+      <th style="width: 10%"><button class="btn btn-danger btn-sm" @click="Delete">Удалить</button></th>
     </tr>
     </thead>
     <tbody>
@@ -89,7 +103,9 @@ const GetPriority = (el) => {
         <button class="btn btn-primary btn-sm" @click="$emit('openModal', user)"><i class="bi bi-pencil-fill"></i>
         </button>
       </td>
-      <td></td>
+      <td>
+        <input type="checkbox" class="form-check-input" v-model="user.to_delete" >
+      </td>
     </tr>
 
     </tbody>

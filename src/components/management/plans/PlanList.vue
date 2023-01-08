@@ -3,6 +3,7 @@
 import {computed, ref, watch} from "vue";
 import axios from "axios";
 import {URL} from "@/utils/config";
+import router from "@/router";
 
 const props = defineProps(["filter_by"])
 const emit = defineEmits(["setPlan"])
@@ -17,6 +18,9 @@ axios.get(URL + "/all_plans").then((response) => {
       return -1
     }
   })
+  plans.value.forEach((plan)=>{
+    plan.to_delete = false
+  })
 })
 
 const FilteredPlan = computed(() => {
@@ -24,6 +28,21 @@ const FilteredPlan = computed(() => {
     return plan.name.toLowerCase().includes(props.filter_by.toLowerCase()) || plan.subject.toLowerCase().includes(props.filter_by.toLowerCase())
   })
 })
+
+const Delete = ()=>{
+  let id = []
+  plans.value.forEach(element=>{element.to_delete?id.push(element.id):''})
+  axios({
+    method: "POST",
+    url: URL+'/drop_plans',
+    data:{
+      plans: id
+    }
+  }).then((response)=>{
+    router.go()
+  })
+}
+
 
 </script>
 
@@ -34,7 +53,7 @@ const FilteredPlan = computed(() => {
       <th>Имя</th>
       <th>Предмет</th>
       <th style="width: 10%">Изменить</th>
-      <th style="width: 10%">Удалить</th>
+      <th style="width: 10%"><button class="btn btn-danger btn-sm" @click="Delete">Удалить</button></th>
     </tr>
     </thead>
     <tbody>
@@ -46,7 +65,9 @@ const FilteredPlan = computed(() => {
         <button class="btn btn-primary btn-sm" @click="$emit('setPlan', plan)"><i class="bi bi-pencil-fill"></i>
         </button>
       </td>
-      <td></td>
+      <td>
+        <input type="checkbox" class="form-check-input" v-model="plan.to_delete" >
+      </td>
     </tr>
 
     </tbody>
