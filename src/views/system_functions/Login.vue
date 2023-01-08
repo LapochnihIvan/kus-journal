@@ -23,7 +23,6 @@ function login() {
     }
   }).then((response)=>{
       localStorage.setItem("user", JSON.stringify(response.data));
-      CreateMessage("Вы вошли", "success")
       router.push({name: "homepage"});
   }).catch(()=>{
     error.value = true;
