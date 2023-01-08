@@ -99,7 +99,7 @@ const SetLesson = (lesson)=>{
 
   <SelectionBlock :journals="journals"
                   :grades="grades"
-                  :group="groups"
+                  :groups="groups"
                   :show_themes="show_themes"
                   @set-journal="SetJournal"
                   @set-show="(show)=>{show_themes=show}"/>

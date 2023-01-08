@@ -2,11 +2,11 @@
 import axios from "axios";
 import {computed, ref} from "vue";
 import {URL} from "@/utils/config";
-import SelectionBlock from "@/components/journal/SelectionBlock.vue";
-import TableHeader from "@/components/journal/TableHeader.vue";
-import TableBody from "@/components/journal/TableBody.vue";
-import ThemeBlock from "@/components/journal/ThemeBlock.vue";
-import LessonModal from "@/components/journal/LessonModal.vue";
+import SelectionBlock from "@/components/HeadJournals/SelectionBlock.vue";
+import TableHeader from "@/components/HeadJournals/TableHeader.vue";
+import TableBody from "@/components/HeadJournals/TableBody.vue";
+import ThemeBlock from "@/components/HeadJournals/ThemeBlock.vue";
+import LessonModal from "@/components/HeadJournals/LessonModal.vue";
 
 const journals = ref([])
 const selected = ref('');
@@ -99,7 +99,7 @@ const SetLesson = (lesson)=>{
 
   <SelectionBlock :journals="journals"
                   :grades="grades"
-                  :group="groups"
+                  :groups="groups"
                   :show_themes="show_themes"
                   @set-journal="SetJournal"
                   @set-show="(show)=>{show_themes=show}"/>
