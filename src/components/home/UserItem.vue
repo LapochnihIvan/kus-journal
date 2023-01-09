@@ -13,7 +13,7 @@ const logout = ()=>{
       <img src="../../static/person-circle.svg" alt="mdo" width="24" height="24" class="rounded-circle">
     </a>
     <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser3">
-      <li><a class="dropdown-item" @click="logout">Sign out</a></li>
+      <li><a class="dropdown-item" @click="logout">Выйти из аккаунта</a></li>
     </ul>
   </div>
 </template>

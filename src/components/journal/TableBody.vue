@@ -85,7 +85,7 @@ function SetMark(event, student, lesson, mark) {
 <template>
   <tbody>
   <tr v-for="student in students">
-    <th scope="row" style="">{{ student.name }} {{ student.surname[0] }}.</th>
+    <th scope="row" style="">{{ student.surname }} {{ student.name[0] }}.</th>
     <td>{{ avg[student.id] }}</td>
     <td style="" v-for="lesson in lessons">
       <input type="text" class="form-control border-0 bg-transparent text-center"

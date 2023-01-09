@@ -157,7 +157,7 @@ const Send = () => {
               </tr>
 
             </table>
-            <div class="form-text">Выберите количество урок в каждый день недели</div>
+            <div class="form-text">Выберите количество уроков на каждый день недели</div>
           </div>
         </div>
 
