@@ -112,7 +112,7 @@ const SetLesson = (lesson)=>{
       </table>
     </div>
 
-    <div class="col-3" v-if="show_themes" style="max-height: 80vh">
+    <div class="col-3" v-if="show_themes" style="overflow: auto; max-height: 80vh">
       <ThemeBlock :lessons="selected.lessons" @set-modal-lesson="(lesson)=>{modal_lesson=lesson}"/>
     </div>
   </div>
