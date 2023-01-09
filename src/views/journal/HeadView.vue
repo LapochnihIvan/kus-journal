@@ -105,14 +105,14 @@ const SetLesson = (lesson)=>{
                   @set-show="(show)=>{show_themes=show}"/>
   <LessonModal :lesson="modal_lesson" @update-lesson="SetLesson"/>
   <div class="row">
-    <div :class="show_themes?'col-9':'col-12'">
-      <table class="table table-striped table-bordered" v-if="selected">
+    <div :class="show_themes?'col-9':'col-12'" style="overflow: auto">
+      <table class="table table-striped table-bordered" v-if="selected" style="overflow: auto">
         <TableHeader :lessons="selected.lessons" @set-modal-lesson="(lesson)=>{modal_lesson=lesson}"/>
         <TableBody :students="student_list" :marks="selected.marks" :lessons="selected.lessons"/>
       </table>
     </div>
 
-    <div class="col-3" v-if="show_themes">
+    <div class="col-3" v-if="show_themes" style="max-height: 80vh">
       <ThemeBlock :lessons="selected.lessons" @set-modal-lesson="(lesson)=>{modal_lesson=lesson}"/>
     </div>
   </div>

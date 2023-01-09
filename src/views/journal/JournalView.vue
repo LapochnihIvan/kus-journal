@@ -1,6 +1,6 @@
 <script setup>
 import axios from "axios";
-import {computed, ref} from "vue";
+import {computed, ref, watch} from "vue";
 import {URL} from "@/utils/config";
 import SelectionBlock from "@/components/journal/SelectionBlock.vue";
 import TableHeader from "@/components/journal/TableHeader.vue";
@@ -92,6 +92,7 @@ const SetLesson = (lesson)=>{
   modal_lesson.value.homework = lesson.homework
   modal_lesson.value.control = lesson.control
 }
+
 </script>
 
 
@@ -104,15 +105,15 @@ const SetLesson = (lesson)=>{
                   @set-journal="SetJournal"
                   @set-show="(show)=>{show_themes=show}"/>
   <LessonModal :lesson="modal_lesson" @update-lesson="SetLesson"/>
-  <div class="row">
-    <div :class="show_themes?'col-9':'col-12'">
-      <table class="table table-striped table-bordered" v-if="selected">
+  <div class="row" >
+    <div :class="show_themes?'col-9':'col-12'" style="overflow: auto">
+      <table class="table table-striped table-bordered" v-if="selected" style="overflow: auto" >
         <TableHeader :lessons="selected.lessons" @set-modal-lesson="(lesson)=>{modal_lesson=lesson}"/>
         <TableBody :students="student_list" :marks="selected.marks" :lessons="selected.lessons"/>
       </table>
     </div>
 
-      <div class="col-3" v-if="show_themes">
+      <div class="col-3" v-if="show_themes" style="overflow: auto; max-height: 80vh">
         <ThemeBlock :lessons="selected.lessons" @set-modal-lesson="(lesson)=>{modal_lesson=lesson}"/>
       </div>
   </div>

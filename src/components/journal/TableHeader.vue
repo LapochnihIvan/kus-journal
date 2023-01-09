@@ -24,7 +24,8 @@ const CallModal = (lesson)=>{
 <template>
     <thead>
     <tr>
-        <th scope="col" style="width: 15%;">Имя</th>
+        <th style="min-width: 10vw;">Имя</th>
+        <th>Сред.</th>
         <th scope="col" style="" v-for="lesson in lessons" @click="CallModal(lesson)">{{MakeDate(lesson.date)}}</th>
     </tr>
     </thead>

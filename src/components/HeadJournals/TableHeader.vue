@@ -2,10 +2,10 @@
 import {Modal} from "bootstrap";
 
 const props = defineProps({
-    lessons: {
-        type: Array,
-        required: true
-    },
+  lessons: {
+    type: Array,
+    required: true
+  },
 })
 
 const emit = defineEmits(["setModalLesson"])
@@ -22,10 +22,11 @@ const CallModal = (lesson)=>{
 </script>
 
 <template>
-    <thead>
-    <tr>
-        <th scope="col" style="width: 15%;">Имя</th>
-        <th scope="col" style="" v-for="lesson in lessons" @click="CallModal(lesson)">{{MakeDate(lesson.date)}}</th>
-    </tr>
-    </thead>
+  <thead>
+  <tr>
+    <th style="min-width: 10vw;">Имя</th>
+    <th>Сред.</th>
+    <th scope="col" style="" v-for="lesson in lessons" @click="CallModal(lesson)">{{MakeDate(lesson.date)}}</th>
+  </tr>
+  </thead>
 </template>
