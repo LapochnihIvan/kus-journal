@@ -42,5 +42,10 @@ export const home_routes = [
         path: 'head_journal',
         name: 'head_journal',
         component: ()=>import("@/views/journal/HeadView.vue")
+    },
+    {
+        path: 'move',
+        name: 'move',
+        component: ()=>import("@/views/metodist/MakeMove.vue")
     }
 ]
