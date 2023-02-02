@@ -1,10 +1,10 @@
-<script setup>
+<script setup >
 import "bootstrap-icons/font/bootstrap-icons.css";
 import router from "@/router";
 import {ref} from "vue";
 import axios from "axios";
 import {URL} from "@/utils/config";
-import {CreateMessage} from "@/components/messages/utils";
+import {CreateMessage} from '@/components/messages/utils';
 import MessageBlock from "@/components/messages/MessageBlock.vue";
 
 

@@ -13,47 +13,19 @@ const groups = ref([])
 const users = ref([])
 
 
-
-axios.get(URL + '/all_grades').then(response => {
-  grades.value = response.data.grades
+axios.get(URL + '/all_journals_simple/' + JSON.parse(localStorage.getItem('user')).id).then(response => {
+  journals.value = response.data.journals
 })
 
-axios.get(URL + '/all_users').then(response => {
-  users.value = response.data.users
-})
 
-axios.get(URL+'/all_groups').then(response => {
-  groups.value = response.data.groups
-})
-watch([grades, users, groups], ()=>{
-  if (groups.value !== [] && grades.value !== [] && users.value !== []){
-  axios.get(URL + '/all_journals_simple/' + JSON.parse(localStorage.getItem('user')).id).then(response => {
-    journals.value = response.data.journals
-    journals.value.forEach(el => {
-      el.to_delete = false
-      // users.value.forEach(user=>{console.log(user.id, el.teacher_id)})
-      el.teacher_id = users.value.filter(user=>{return user.id === el.teacher_id})[0]
-      if (el.teacher_id === undefined){
-        el.teacher_id = {}
-      }
-      if (el.is_group){
-        el.group_id = groups.value.filter(group=>{return group.id === el.group_id})[0]
-      }else{
-        el.group_id = grades.value.filter(grade=>{return grade.id === el.group_id})[0]
-      }
-    })
-  })}
-
-})
-
-const Delete = ()=>{
+const Delete = () => {
 
 }
 
 const FilteredJournals = computed(() => {
-  return journals.value.filter((journal)=>{
-    return journal.planName.toLowerCase().includes(props.filter_by.toLowerCase())||
-        journal.group_id.name.toLowerCase().includes(props.filter_by.toLowerCase())||
+  return journals.value.filter((journal) => {
+    return journal.planName.toLowerCase().includes(props.filter_by.toLowerCase()) ||
+        journal.group_id.name.toLowerCase().includes(props.filter_by.toLowerCase()) ||
         journal.teacher_id.name.toLowerCase().includes(props.filter_by.toLowerCase())
   })
 })
@@ -76,8 +48,8 @@ const FilteredJournals = computed(() => {
     <tbody>
     <tr v-for="journal in FilteredJournals">
       <td>{{ journal.planName }}</td>
-      <td>{{ journal.group_id.name}}</td>
-      <td>{{journal.teacher_id.name}} {{journal.teacher_id.surname}}</td>
+      <td>{{ journal.group_id.name }}</td>
+      <td>{{ journal.teacher_id.name }} {{ journal.teacher_id.surname }}</td>
       <td>
         <button class="btn btn-primary btn-sm" @click="$emit('openModal', journal)"><i class="bi bi-pencil-fill"></i>
         </button>

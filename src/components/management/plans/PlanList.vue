@@ -10,7 +10,7 @@ const emit = defineEmits(["setPlan"])
 
 const plans = ref([])
 
-axios.get(URL + "/all_plans").then((response) => {
+axios.get(URL + "/get_full/all/plan/*").then((response) => {
   plans.value = response.data.plans.sort((el1, el2)=>{
     if (el1.name>el2.name){
       return 1
@@ -66,7 +66,7 @@ const Delete = ()=>{
         </button>
       </td>
       <td>
-        <input type="checkbox" class="form-check-input" v-model="plan.to_delete" >
+        <input type="checkbox" class="form-check-input" v-model="plan.to_delete">
       </td>
     </tr>
 
