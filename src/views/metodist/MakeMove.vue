@@ -9,7 +9,6 @@ const journals = ref<Journal[]>()
 axios.get(URL + '/all_journals_simple/' + JSON.parse(localStorage.getItem('user')).id).then((response)=>{
   journals.value = response.data.journals
 })
-const correct_journal
 
 </script>
 
