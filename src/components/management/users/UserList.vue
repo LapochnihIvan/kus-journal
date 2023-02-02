@@ -10,7 +10,7 @@ const emit = defineEmits(["openModal"])
 
 const users = ref([])
 
-axios.get(URL + '/all_users').then((response) => {
+axios.get(URL + '/get_full/all/user/-').then((response) => {
   users.value = response.data.users.filter((user) => {
     return (!user.role.includes("admin") && !user.role.includes("director")) || (JSON.parse(localStorage.getItem("user")).role.includes("admin"))
   })

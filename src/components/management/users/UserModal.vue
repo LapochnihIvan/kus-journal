@@ -32,7 +32,7 @@ const SendUser = () => {
   }
   axios({
     method: "POST",
-    url: URL + "/manage_user",
+    url: URL + "/post/user",
     data: {
       id: current_user.id === undefined ? 0 : current_user.id,
       name: current_user.name,
