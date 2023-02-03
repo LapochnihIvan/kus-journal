@@ -13,8 +13,8 @@ const groups = ref([])
 const users = ref([])
 
 
-axios.get(URL + '/all_journals_simple/' + JSON.parse(localStorage.getItem('user')).id).then(response => {
-  journals.value = response.data.journals
+axios.get(URL + '/get_full/all/journal_table/group_id;teacher_id;plan_id').then(response => {
+  journals.value = response.data.journal_tables
 })
 
 
@@ -24,9 +24,9 @@ const Delete = () => {
 
 const FilteredJournals = computed(() => {
   return journals.value.filter((journal) => {
-    return journal.planName.toLowerCase().includes(props.filter_by.toLowerCase()) ||
-        journal.group_id.name.toLowerCase().includes(props.filter_by.toLowerCase()) ||
-        journal.teacher_id.name.toLowerCase().includes(props.filter_by.toLowerCase())
+    return journal.plan.name.toLowerCase().includes(props.filter_by.toLowerCase()) ||
+        journal.group.name.toLowerCase().includes(props.filter_by.toLowerCase()) ||
+        journal.teacher.name.toLowerCase().includes(props.filter_by.toLowerCase())
   })
 })
 </script>
@@ -47,9 +47,9 @@ const FilteredJournals = computed(() => {
     </thead>
     <tbody>
     <tr v-for="journal in FilteredJournals">
-      <td>{{ journal.planName }}</td>
-      <td>{{ journal.group_id.name }}</td>
-      <td>{{ journal.teacher_id.name }} {{ journal.teacher_id.surname }}</td>
+      <td>{{ journal.plan.name }}</td>
+      <td>{{ journal.group.name }}</td>
+      <td>{{ journal.user.name }} {{ journal.user.surname }}</td>
       <td>
         <button class="btn btn-primary btn-sm" @click="$emit('openModal', journal)"><i class="bi bi-pencil-fill"></i>
         </button>

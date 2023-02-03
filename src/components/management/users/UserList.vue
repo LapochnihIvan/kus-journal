@@ -10,9 +10,9 @@ const emit = defineEmits(["openModal"])
 
 const users = ref([])
 
-axios.get(URL + '/get_full/all/user/-').then((response) => {
+axios.get(URL + '/get/all/user').then((response) => {
   users.value = response.data.users.filter((user) => {
-    return (!user.role.includes("admin") && !user.role.includes("director")) || (JSON.parse(localStorage.getItem("user")).role.includes("admin"))
+    return (!user.roles.includes("admin") && !user.roles.includes("director")) || (JSON.parse(localStorage.getItem("user")).roles.includes("admin"))
   })
   users.value.sort((f, s) => {
     if (GetPriority(f.role) > GetPriority(s.role)) {
@@ -97,7 +97,7 @@ const Delete = ()=>{
     <tbody>
     <tr v-for="user in FilteredUsers">
       <td>{{ user.surname }} {{ user.name }}</td>
-      <td>{{ GetRole(user.role) }}</td>
+      <td>{{ GetRole(user.roles) }}</td>
       <td>{{ user.login }}</td>
       <td>
         <button class="btn btn-primary btn-sm" @click="$emit('openModal', user)"><i class="bi bi-pencil-fill"></i>

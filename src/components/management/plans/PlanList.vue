@@ -10,7 +10,7 @@ const emit = defineEmits(["setPlan"])
 
 const plans = ref([])
 
-axios.get(URL + "/get_full/all/plan/*").then((response) => {
+axios.get(URL + "/get/all/plan").then((response) => {
   plans.value = response.data.plans.sort((el1, el2)=>{
     if (el1.name>el2.name){
       return 1

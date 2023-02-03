@@ -13,7 +13,7 @@ const current_user = reactive({
   surname: '',
   login: '',
   password: '',
-  role: ['']
+  roles: ['']
 })
 watch(props, () => {
   current_user.id = props.user.id
@@ -21,7 +21,7 @@ watch(props, () => {
   current_user.surname = props.user.surname
   current_user.login = props.user.login
   current_user.password = props.user.password
-  current_user.role = props.user.role
+  current_user.roles = props.user.roles
 })
 
 const SendUser = () => {
@@ -39,7 +39,7 @@ const SendUser = () => {
       surname: current_user.surname,
       login: current_user.login,
       password: current_user.password,
-      role: roles
+      roles: roles
     },
     headers: {
       token: JSON.parse(localStorage.getItem("user")).token
@@ -82,7 +82,7 @@ const SendUser = () => {
           </div>
           <div class="mb-3">
             <label class="form-label">Выбрать роль</label>
-            <select class="form-control" v-model="current_user.role" multiple>
+            <select class="form-control" v-model="current_user.roles" multiple>
               <option value="student">Обучающийся</option>
               <option value="teacher">Педагог</option>
               <option value="grade_head">Классный руководитель</option>
