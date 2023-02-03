@@ -13,7 +13,7 @@ const groups = ref([])
 const users = ref([])
 
 
-axios.get(URL + '/get_full/all/journal_table/group_id;teacher_id;plan_id').then(response => {
+axios.get(URL + "/get/if/journal_table[*;teacher_id[*];plan_id[*];group_id[*]]/methodist_id="+JSON.parse(localStorage.getItem("user")).id).then(response => {
   journals.value = response.data.journal_tables
 })
 
@@ -49,7 +49,7 @@ const FilteredJournals = computed(() => {
     <tr v-for="journal in FilteredJournals">
       <td>{{ journal.plan.name }}</td>
       <td>{{ journal.group.name }}</td>
-      <td>{{ journal.user.name }} {{ journal.user.surname }}</td>
+      <td>{{ journal.teacher.name }} {{ journal.teacher.surname }}</td>
       <td>
         <button class="btn btn-primary btn-sm" @click="$emit('openModal', journal)"><i class="bi bi-pencil-fill"></i>
         </button>

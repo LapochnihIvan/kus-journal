@@ -11,24 +11,24 @@ const teachers = ref([])
 const plans = ref([])
 const subjects = ref([])
 
-axios.get(URL + '/get_full/all/grade/-').then(response => {
+axios.get(URL + '/get/all/grade[*]').then(response => {
   grades.value = response.data.grades
 })
-axios.get(URL + '/get_full/all/subject/-').then(response => {
-  subjects.value = response.data.subject
+axios.get(URL + '/get/all/subject[*]').then(response => {
+  subjects.value = response.data.subjects
 })
 
-axios.get(URL + '/get_full/all/user/-').then(response => {
+axios.get(URL + '/get/all/user[*]').then(response => {
   teachers.value = response.data.users.filter(user => {
-    return !user.role.includes("student")
+    return !user.roles.includes("student")
   })
 })
 
-axios.get(URL + '/get_full/all/group/-').then(response => {
+axios.get(URL + '/get/all/group[*]').then(response => {
   groups.value = response.data.groups
 })
 
-axios.get(URL + '/get_full/all/plan/-').then(response => {
+axios.get(URL + '/get/all/plan[*]').then(response => {
   plans.value = response.data.plans
 })
 const schedule = ref([0, 0, 0, 0, 0, 0, 0])
@@ -96,7 +96,7 @@ const Send = () => {
         <div class="modal-body">
           <div class="mb-3">
             <label class="form-label">Учитель</label>
-            <select class="form-select" v-model="current_journal.user">
+            <select class="form-select" v-model="current_journal.teacher">
               <option v-for="teacher in teachers" :value="teacher"> {{ teacher.name }} {{ teacher.surname }}</option>
             </select>
             <div class="form-text">Роль учителя автоматически вытавится после сохранения</div>

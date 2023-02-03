@@ -10,7 +10,7 @@ const emit = defineEmits(["setPlan"])
 
 const plans = ref([])
 
-axios.get(URL + "/get/all/plan").then((response) => {
+axios.get(URL + "/get/all/plan[*;subject_id[*]]").then((response) => {
   plans.value = response.data.plans.sort((el1, el2)=>{
     if (el1.name>el2.name){
       return 1
@@ -59,7 +59,7 @@ const Delete = ()=>{
     <tbody>
     <tr v-for="plan in FilteredPlan">
       <td>{{ plan.name }}</td>
-      <td>{{ plan.subject }}</td>
+      <td>{{ plan.subject.name }}</td>
 
       <td>
         <button class="btn btn-primary btn-sm" @click="$emit('setPlan', plan)"><i class="bi bi-pencil-fill"></i>

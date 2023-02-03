@@ -10,59 +10,46 @@ const emit = defineEmits(["openModal"])
 const grades = ref([])
 const users = ref([])
 
-const GetPriority = (name)=>{
-  if (!(name[1] === '1' || name[1] === '0')){
-    name = '0'+name
+const GetPriority = (name) => {
+  if (!(name[1] === '1' || name[1] === '0')) {
+    name = '0' + name
   }
   return name
 }
-
-
-
-axios.get(URL + '/all_users').then((response) => {
-  users.value = response.data.users;
-})
-
-watch(users, ()=>{
-  axios.get(URL + '/all_grades').then((response) => {
-    grades.value = response.data.grades
-    grades.value.sort((f, s) => {
-      if (GetPriority(f.name) > GetPriority(s.name)) {
-        return 1
-      }else{
-        return -1
-      }
-
-    })
-
-    for (let grade of grades.value){
-      grade.head = users.value.filter((user)=>{return user.id === grade.head})[0]
-      if (grade.head === undefined){
-        grade.head = {}
-      }
+axios.get(URL + '/get/all/grade[*;head_id[id;name;surname;role_id]]').then((response) => {
+  grades.value = response.data.grades
+  grades.value.sort((f, s) => {
+    if (GetPriority(f.name) > GetPriority(s.name)) {
+      return 1
+    } else {
+      return -1
     }
-    grades.value.forEach(grade=>{grade.to_delete = false})
+
+  })
+  grades.value.forEach(grade => {
+    grade.to_delete = false
   })
 })
 
 
-
 const FilteredGrades = computed(() => {
-  return grades.value.filter((grade)=>{
+  return grades.value.filter((grade) => {
     return grade.name.toLowerCase().includes(props.filter_by.toLowerCase())
   })
 })
 
-const Delete = ()=>{
+const Delete = () => {
   let id = []
-  grades.value.forEach(element=>{element.to_delete?id.push(element.id):''})
+  grades.value.forEach(element => {
+    element.to_delete ? id.push(element.id) : ''
+  })
   axios({
     method: "POST",
-    url: URL+'/drop_grades',
-    data:{
+    url: URL + '/drop_grades',
+    data: {
       grades: id
     }
-  }).then((response)=>{
+  }).then((response) => {
     router.go()
   })
 }
@@ -75,13 +62,15 @@ const Delete = ()=>{
       <th>Имя</th>
       <th>Классный руководитель</th>
       <th style="width: 10%">Изменить</th>
-      <th style="width: 10%"><button class="btn btn-danger btn-sm" @click="Delete">Удалить</button></th>
+      <th style="width: 10%">
+        <button class="btn btn-danger btn-sm" @click="Delete">Удалить</button>
+      </th>
     </tr>
     </thead>
     <tbody>
     <tr v-for="grade in FilteredGrades">
-      <td>{{ grade.name}}</td>
-      <td>{{ grade.head.name }} {{grade.head.surname}}</td>
+      <td>{{ grade.name }}</td>
+      <td>{{ grade.head.name }} {{ grade.head.surname }}</td>
       <td>
         <button class="btn btn-primary btn-sm" @click="$emit('openModal', grade)"><i class="bi bi-pencil-fill"></i>
         </button>

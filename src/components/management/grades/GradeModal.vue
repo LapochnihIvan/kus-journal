@@ -12,12 +12,12 @@ const staff = ref([])
 const students = ref([])
 
 
-axios.get(URL + '/all_users').then((response) => {
+axios.get(URL + '/get/all/user[id;name;surname;role_id]').then((response) => {
   staff.value = response.data.users.filter((user) => {
-    return !user.role.includes("student")
+    return !user.roles.includes("student")
   });
   students.value = response.data.users.filter((user) => {
-    return user.role.includes("student")
+    return user.roles.includes("student")
   });
 })
 

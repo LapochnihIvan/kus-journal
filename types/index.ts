@@ -1,7 +1,7 @@
 interface Object{
     name():string
 }
-
+[]
 export class User{
     id: number
     login: string

@@ -20,7 +20,7 @@ watch(props, () => {
   current_plan.url = props.plan.url === undefined ? '' : props.plan.url
 })
 const subjects = ref([])
-axios.get(URL + "/get_full/all/subject/*").then((response) => {
+axios.get(URL + "/get/all/subject[*]").then((response) => {
   subjects.value = response.data.subjects
 })
 
@@ -72,7 +72,7 @@ const Send = () => {
           <div class="mb-3">
             <label class="form-label">Предмет</label>
             <select class="form-select" v-model="current_plan.subject">
-              <option v-for="subject in subjects" :value="subject.name">{{ subject.name }}</option>
+              <option v-for="subject in subjects" :value="subject">{{ subject.name }}</option>
             </select>
             <div class="form-text">Это короткое имя которое будет видеть педагог</div>
           </div>
