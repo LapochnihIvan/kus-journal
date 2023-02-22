@@ -47,5 +47,10 @@ export const home_routes = [
         path: 'move',
         name: 'move',
         component: ()=>import("@/views/metodist/MakeMove.vue")
+    },
+    {
+        path: 'task_list',
+        name: 'task_list',
+        component: ()=>import("@/views/competitoin/Tasks.vue")
     }
 ]

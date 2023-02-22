@@ -31,15 +31,24 @@ const current_grade = reactive({
 const selected_teacher = ref('')
 
 watch(props, () => {
-  current_grade.id = props.grade.id === undefined ? 0 : props.grade.id
-  current_grade.name = props.grade.name
-  current_grade.students = props.grade.students === undefined ? [] : props.grade.students
-  current_grade.head = props.grade.head
+  axios.get(URL+'/get/by_id/grade(grade_student[student_id[name;surname;id;role_id]])[*;head_id[id;name;surname;role_id]]/'+props.grade.id).
+  then((response)=>{
+    current_grade.id = response.data.grade.id
+    current_grade.name = response.data.grade.name
+    console.log(response.data.grade)
+    current_grade.head = response.data.grade.head
+    let students = []
+    for (let i of response.data.grade.grade_students){
+      students.push(i.student)
+    }
+    current_grade.students = students
+  })
+
 })
 const GetId = computed(() => {
   let id = []
-  if (props.grade.students) {
-    for (let student of props.grade.students) {
+  if (current_grade.students) {
+    for (let student of current_grade.students) {
       id.push(student.id)
     }
   }
