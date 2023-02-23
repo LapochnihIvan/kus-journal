@@ -5,6 +5,7 @@ import {URL} from "@/utils/config"
 import axios from "axios";
 import SubmissionList from "@/components/tasks/SubmissionList.vue";
 import {useStore} from "vuex";
+import SendSubmission from "@/components/tasks/SendSubmission.vue";
 
 const router = useRoute()
 const store = useStore()
@@ -21,9 +22,7 @@ const sort_by_date = (a, b)=>{
 
 const task = ref({})
 axios.get(URL + "/problem/" + router.params.id + "/" + JSON.parse(localStorage.getItem("user")).id).then((response) => {
-  console.log("srnf")
   task.value = response.data.problem
-  console.log(task.value.submissions.sort(sort_by_date))
   store.commit("set_submissions", task.value.submissions.sort(sort_by_date))
 })
 
@@ -58,15 +57,15 @@ watch(router, () => {
         </div>
         <div class="row gx-2 mt-1" v-for="example in task.examples">
           <div class="col-6">
-            <div class="p-2 " style="background-color: #f8f8f8">{{ example.input }}</div>
+            <div class="p-2 " style="background-color: #f8f8f8" v-html="example.input"></div>
           </div>
           <div class="col-6" >
-            <div class="p-2 " style="background-color: #f8f8f8">{{ example.output }}</div>
+            <div class="p-2 " style="background-color: #f8f8f8" v-html="example.output"></div>
           </div>
         </div>
         <div class="row mt-5">
           <div class="col-3 d-grid gap-2 me-auto">
-            <button type="button" class="btn btn-primary">Послать</button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#send_submission">Послать</button>
           </div>
           <div class="col-5 text-end">
             Лимит времени: {{task.time_limit}} c. <br>
@@ -77,6 +76,7 @@ watch(router, () => {
       <div class="col-4 my-3" ><SubmissionList /></div>
     </div>
   </div>
+  <SendSubmission :task_id="router.params.id"/>
 </template>
 
 <style scoped>
