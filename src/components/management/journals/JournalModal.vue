@@ -20,7 +20,7 @@ axios.get(URL + '/get/all/subject[*]').then(response => {
 
 axios.get(URL + '/get/all/user[*]').then(response => {
   teachers.value = response.data.users.filter(user => {
-    return !user.roles.includes("student")
+    return !user.role.includes("student")
   })
 })
 

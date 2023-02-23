@@ -14,10 +14,10 @@ const students = ref([])
 
 axios.get(URL + '/get/all/user[id;name;surname;role_id]').then((response) => {
   staff.value = response.data.users.filter((user) => {
-    return !user.roles.includes("student")
+    return !user.role.includes("student")
   });
   students.value = response.data.users.filter((user) => {
-    return user.roles.includes("student")
+    return user.role.includes("student")
   });
 })
 

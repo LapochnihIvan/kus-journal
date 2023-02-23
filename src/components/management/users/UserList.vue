@@ -11,8 +11,9 @@ const emit = defineEmits(["openModal"])
 const users = ref([])
 
 axios.get(URL + '/get/all/user').then((response) => {
+
   users.value = response.data.users.filter((user) => {
-    return (!user.roles.includes("admin") && !user.roles.includes("director")) || (JSON.parse(localStorage.getItem("user")).roles.includes("admin"))
+    return (!user.role.includes("admin") && !user.role.includes("director")) || (JSON.parse(localStorage.getItem("user")).role.includes("admin"))
   })
   users.value.sort((f, s) => {
     if (GetPriority(f.role) > GetPriority(s.role)) {
@@ -28,7 +29,9 @@ axios.get(URL + '/get/all/user').then((response) => {
     }
   })
   users.value.forEach(element=>{element.to_delete = false})
+
 })
+
 
 const GetRole = (raw) => {
   const roles = {
@@ -97,7 +100,7 @@ const Delete = ()=>{
     <tbody>
     <tr v-for="user in FilteredUsers">
       <td>{{ user.surname }} {{ user.name }}</td>
-      <td>{{ GetRole(user.roles) }}</td>
+      <td>{{ GetRole(user.role) }}</td>
       <td>{{ user.login }}</td>
       <td>
         <button class="btn btn-primary btn-sm" @click="$emit('openModal', user)"><i class="bi bi-pencil-fill"></i>
