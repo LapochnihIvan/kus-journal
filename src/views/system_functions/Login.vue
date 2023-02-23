@@ -22,7 +22,7 @@ function login() {
       "password": password.value
     }
   }).then((response)=>{
-      localStorage.setItem("user", JSON.stringify(response.data));
+      localStorage.setItem("user", JSON.stringify(response.data.user));
       router.push({name: "homepage"});
   }).catch(()=>{
     error.value = true;
