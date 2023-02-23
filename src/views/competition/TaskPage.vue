@@ -3,19 +3,36 @@ import {useRoute} from "vue-router";
 import {onMounted, onUpdated, ref, watch} from "vue";
 import {URL} from "@/utils/config"
 import axios from "axios";
+import SubmissionList from "@/components/tasks/SubmissionList.vue";
+import {useStore} from "vuex";
 
 const router = useRoute()
+const store = useStore()
+
+const sort_by_date = (a, b)=>{
+  let f_date = Date(a.date)
+  let s_date = Date(b.date)
+  if (f_date>s_date){
+    return 1;
+  }else{
+    return 0;
+  }
+}
 
 const task = ref({})
 axios.get(URL + "/problem/" + router.params.id + "/" + JSON.parse(localStorage.getItem("user")).id).then((response) => {
   console.log("srnf")
   task.value = response.data.problem
+  console.log(task.value.submissions.sort(sort_by_date))
+  store.commit("set_submissions", task.value.submissions.sort(sort_by_date))
 })
+
 watch(router, () => {
   axios.get(URL + "/problem/" + router.params.id + "/" + JSON.parse(localStorage.getItem("user")).id).then((response) => {
-    console.log("srnf")
     task.value = response.data.problem
+    store.commit("set_submissions", task.value.submissions.sort(sort_by_date))
   })
+
 })
 
 
@@ -24,7 +41,7 @@ watch(router, () => {
 <template>
   <div class="ps-5">
     <div class="row">
-      <div class="col-10">
+      <div class="col-8">
         <h3 class="my-3">{{ task.name }}</h3>
         <p>{{ task.legend }}</p>
         <h5>Входные данные</h5>
@@ -51,12 +68,13 @@ watch(router, () => {
           <div class="col-3 d-grid gap-2 me-auto">
             <button type="button" class="btn btn-primary">Послать</button>
           </div>
-          <div class="col-3 text-end">
+          <div class="col-5 text-end">
             Лимит времени: {{task.time_limit}} c. <br>
             Лимит памяти: {{task.memory_limit}} MB
           </div>
         </div>
       </div>
+      <div class="col-4 my-3" ><SubmissionList /></div>
     </div>
   </div>
 </template>
