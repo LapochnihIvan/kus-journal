@@ -1,13 +1,11 @@
-<script setup lang="ts">
-import {Journal} from "../../../types"
+<script setup>
 import {ref} from "vue";
 import axios from "axios";
-import {URL} from "../../utils/config.js"
+import {URL} from "@/utils/config.js"
 
-
-const journals = ref<Journal[]>()
-axios.get(URL + '/all_journals_simple/' + JSON.parse(localStorage.getItem('user')).id).then((response)=>{
-  journals.value = response.data.journals
+const journals = ref()
+axios.get(URL + '/get/all/journal_table[name;id;schedule]').then((response)=>{
+  journals.value = response.data.journal_tables
 })
 
 </script>
