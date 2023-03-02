@@ -2,16 +2,24 @@
 import {ref} from "vue";
 import axios from "axios";
 import {URL} from "@/utils/config.js"
+import {useStore} from "vuex";
+import SelectForm from "@/components/management/moves/SelectForm.vue";
 
-const journals = ref()
-axios.get(URL + '/get/all/journal_table[name;id;schedule]').then((response)=>{
-  journals.value = response.data.journal_tables
+const store = useStore()
+axios.get(URL + '/get/all/journal_table[name;id;schedule]').then((response) => {
+  store.commit("set_multi_journals", response.data.journal_tables)
 })
 
 </script>
 
 <template>
-<p v-for="journal in journals">{{journal}}</p>
+  <div class="row justify-content-md-center mt-3">
+    <div class="col-6">
+      <SelectForm/>
+    </div>
+  </div>
+
+
 </template>
 
 
