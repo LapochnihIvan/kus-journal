@@ -26,23 +26,19 @@ axios.get(URL + "/get/all/subject[*]").then((response) => {
 
 const file = ref()
 
-const FindId = (name)=>{
-  return subjects.value.filter((subject)=>{return subject.name === name})[0].id
-}
-
 const Send = () => {
   let data = {}
   data.id = current_plan.id
-  data.subject_id = FindId(current_plan.subject)
+  data.subject_id = current_plan.subject.id
   data.name = current_plan.name
 
-  // if (file.value !== undefined){
-  //   data.filename = file.value.name
-  //   data.file = file.value
-  // }
-  console.log(data)
+  if (file.value !== undefined){
+    data.filename = file.value.name
+    data.file = file.value
+  }
+  let path = file.value !== undefined?"/upload/plan":"/post/plan"
   axios({
-    url: URL + "/post/plan",
+    url: URL + path,
     method: "POST",
     data:data,
     headers: {
