@@ -35,7 +35,6 @@ watch(props, () => {
   then((response)=>{
     current_grade.id = response.data.grade.id
     current_grade.name = response.data.grade.name
-    console.log(response.data.grade)
     current_grade.head = response.data.grade.head
     let students = []
     for (let i of response.data.grade.grade_students){
