@@ -20,7 +20,7 @@ axios.get(URL + '/get/all/subject[*]').then(response => {
 
 axios.get(URL + '/get/all/user[*]').then(response => {
   teachers.value = response.data.users.filter(user => {
-    return !user.roles.includes("student")
+    return !user.role.includes("student")
   })
 })
 
@@ -62,18 +62,18 @@ const Send = () => {
   }
   let data = {
     id: current_journal.value.id,
-    teacher_id: current_journal.value.teacher_id.id,
-    methodist: user.id,
+    teacher_id: current_journal.value.teacher.id,
+    methodist_id: user.id,
     is_group: current_journal.value.is_group,
-    group_id: current_journal.value.group_id.id,
-    subject: plans.value.filter(el=>{return el.name===current_journal.value.planName})[0].subject,
-    plan: plans.value.filter(el=>{return el.name===current_journal.value.planName})[0].id,
-    school: user.school,
+    group_id: current_journal.value.group.id,
+    subject_id: plans.value.filter(el=>{return el.name===current_journal.value.plan.name})[0].subject_id,
+    plan_id: plans.value.filter(el=>{return el.name===current_journal.value.plan.name})[0].id,
     schedule: days
   }
+  console.log(data)
   axios({
     method: "POST",
-    url: URL+"/manage_journal",
+    url: URL+"/post/journal_table",
     data:data
   }).then(()=>{
     router.go()
