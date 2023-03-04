@@ -1,4 +1,5 @@
 import {only_teacher} from "@/utils/authorization";
+import {tasks_routes} from "@/router/tasks";
 
 export const home_routes = [
     {
@@ -47,5 +48,11 @@ export const home_routes = [
         path: 'move',
         name: 'move',
         component: ()=>import("@/views/metodist/MakeMove.vue")
+    },
+    {
+        path: 'task_list',
+        name: 'task_list',
+        children: tasks_routes,
+        component: ()=>import("@/views/competition/Tasks.vue")
     }
 ]

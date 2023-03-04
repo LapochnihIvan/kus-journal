@@ -21,6 +21,7 @@ const user = reactive(JSON.parse(localStorage.getItem("user")))
         <ListItem icon="bi-people" :href="{name: 'grade_management'}" v-if="user.role.includes('add_user')" :title="'Управление классами'"/>
         <ListItem icon="bi-table" :href="{name: 'journal_management'}" v-if="user.role.includes('add_journal')" />
         <ListItem icon="bi-arrow-left-right" :href="{name: 'move'}"/>
+        <ListItem icon="bi-award" :href="{name: 'task_list'}"/>
       </ul>
       <UserItem/>
     </div>
