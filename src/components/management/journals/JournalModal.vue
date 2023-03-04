@@ -54,12 +54,13 @@ watch(props, () => {
 
 const Send = () => {
   let user = JSON.parse(localStorage.getItem("user"))
-  let days = []
+  let days = ''
   for (let i = 1; i<7; i++){
     for (let j = 0; j<schedule.value[i-1]; j++){
-      days.push(i)
+      days += i+' '
     }
   }
+  days = days.slice(0, -1)
   let data = {
     id: current_journal.value.id,
     teacher_id: current_journal.value.teacher.id,
@@ -76,10 +77,8 @@ const Send = () => {
     url: URL+"/post/journal_table",
     data:data
   }).then(()=>{
-    router.go()
+    // router.go()
   })
-  console.log(data)
-
 }
 
 </script>
@@ -88,6 +87,7 @@ const Send = () => {
   <div class="modal fade" id="journal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
        aria-hidden="true">
     <div class="modal-dialog">
+
       <div class="modal-content">
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="staticBackdropLabel">Работа с журналами</h1>
@@ -96,6 +96,7 @@ const Send = () => {
         <div class="modal-body">
           <div class="mb-3">
             <label class="form-label">Учитель</label>
+            {{current_journal}}
             <select class="form-select" v-model="current_journal.teacher">
               <option v-for="teacher in teachers" :value="teacher"> {{ teacher.name }} {{ teacher.surname }}</option>
             </select>

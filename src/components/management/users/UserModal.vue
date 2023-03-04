@@ -21,7 +21,7 @@ watch(props, () => {
   current_user.surname = props.user.surname
   current_user.login = props.user.login
   current_user.password = props.user.password
-  current_user.roles = props.user.roles
+  current_user.role = props.user.role
 })
 
 const SendUser = () => {
@@ -39,13 +39,14 @@ const SendUser = () => {
       surname: current_user.surname,
       login: current_user.login,
       password: current_user.password,
-      roles: roles
+      role: roles,
+      school_id: JSON.parse(localStorage.getItem('user')).school_id
     },
     headers: {
       token: JSON.parse(localStorage.getItem("user")).token
     }
   }).then(() => {
-        router.go();
+        router.go()
       }
   )
 }
@@ -82,7 +83,7 @@ const SendUser = () => {
           </div>
           <div class="mb-3">
             <label class="form-label">Выбрать роль</label>
-            <select class="form-control" v-model="current_user.roles" multiple>
+            <select class="form-control" v-model="current_user.role" multiple>
               <option value="student">Обучающийся</option>
               <option value="teacher">Педагог</option>
               <option value="grade_head">Классный руководитель</option>
