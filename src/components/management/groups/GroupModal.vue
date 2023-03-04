@@ -4,9 +4,11 @@ import StudentsSearch from "@/components/management/grades/StudentsSearch.vue";
 import axios from "axios";
 import {URL} from "@/utils/config";
 import router from "@/router";
+import {useStore} from "vuex";
 
 const props = defineProps(["group", "students", "backID"])
 const emit = defineEmits(["ChangeGroup"])
+const store = useStore()
 const current_group = reactive({
   name: "",
   students: [],
@@ -55,7 +57,7 @@ const Send = ()=>{
       token: JSON.parse(localStorage.getItem("user")).token
     }
   }).then((response)=>{
-    router.go()
+    store.commit('changeReload')
   })
 }
 

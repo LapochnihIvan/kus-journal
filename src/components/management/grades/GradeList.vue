@@ -16,19 +16,29 @@ const GetPriority = (name) => {
   }
   return name
 }
-axios.get(URL + '/get/all/grade[*;head_id[id;name;surname;role_id]]').then((response) => {
-  grades.value = response.data.grades
-  grades.value.sort((f, s) => {
-    if (GetPriority(f.name) > GetPriority(s.name)) {
-      return 1
-    } else {
-      return -1
-    }
+const GetGrade = ()=>{
+  axios.get(URL + '/get/all/grade[*;head_id[id;name;surname;role_id]]').then((response) => {
+    grades.value = response.data.grades
+    grades.value.sort((f, s) => {
+      if (GetPriority(f.name) > GetPriority(s.name)) {
+        return 1
+      } else {
+        return -1
+      }
 
+    })
+    grades.value.forEach(grade => {
+      grade.to_delete = false
+    })
   })
-  grades.value.forEach(grade => {
-    grade.to_delete = false
-  })
+}
+GetGrade()
+let reload = computed(()=>{
+  return store.state.needReload
+})
+
+watch(reload, ()=>{
+  GetGrade()
 })
 
 

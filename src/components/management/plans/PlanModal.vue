@@ -2,11 +2,11 @@
 import {reactive, ref, watch} from "vue";
 import axios from "axios";
 import {FOR_ASSETS, URL} from "@/utils/config";
-import router from "@/router";
+import {useStore} from "vuex";
 
 const props = defineProps(["plan"])
 const emit = defineEmits(["reGet"])
-
+const store = useStore()
 const current_plan = reactive({
   id: '',
   name: '',
@@ -47,7 +47,7 @@ const Send = () => {
     }
 
   }).then((response)=>{
-    router.go()
+    store.commit("changeReload")
   })
 }
 </script>

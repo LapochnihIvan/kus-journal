@@ -4,13 +4,14 @@ import axios from "axios";
 import router from "@/router";
 import {URL} from "@/utils/config";
 import StudentsSearch from "@/components/management/grades/StudentsSearch.vue";
+import {useStore} from "vuex";
 
 const props = defineProps(["grade"])
 const emit = defineEmits(["reGet"])
 
 const staff = ref([])
 const students = ref([])
-
+const store = useStore()
 
 axios.get(URL + '/get/all/user[id;name;surname;role_id]').then((response) => {
   staff.value = response.data.users.filter((user) => {
@@ -75,7 +76,7 @@ const SendGrade = () => {
       token: JSON.parse(localStorage.getItem("user")).token
     }
   }).then((response) => {
-    router.go()
+    store.commit('changeReload')
   })
 }
 

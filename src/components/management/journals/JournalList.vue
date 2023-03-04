@@ -3,6 +3,7 @@
 import {computed, ref, watch} from "vue";
 import {URL} from "@/utils/config";
 import axios from "axios";
+import {useStore} from "vuex";
 
 const emit = defineEmits(["openModal"])
 const props = defineProps(["filter_by"])
@@ -11,11 +12,24 @@ const journals = ref([])
 const grades = ref([])
 const groups = ref([])
 const users = ref([])
+const store = useStore()
 
+const getJournals = ()=>{
+  axios.get(URL + "/get/if/journal_table[*;teacher_id[*];plan_id[*];group_id[*]]/methodist_id="+JSON.parse(localStorage.getItem("user")).id).then(response => {
+    journals.value = response.data.journal_tables
+  })
+}
 
-axios.get(URL + "/get/if/journal_table[*;teacher_id[*];plan_id[*];group_id[*]]/methodist_id="+JSON.parse(localStorage.getItem("user")).id).then(response => {
-  journals.value = response.data.journal_tables
+let reload = computed(()=>{
+  return store.state.needReload
 })
+
+getJournals()
+watch(reload, ()=>{
+  console.log("reload is")
+  getJournals()
+})
+
 
 
 const Delete = () => {

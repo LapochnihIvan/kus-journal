@@ -1,11 +1,12 @@
 <script setup>
 import {reactive, watch} from "vue";
 import axios from "axios";
-import router from "@/router";
 import {URL} from "@/utils/config";
+import {useStore} from "vuex";
 
 const props = defineProps(["user"])
 const emit = defineEmits(["reGet"])
+const store = useStore();
 
 const current_user = reactive({
   id: '',
@@ -46,7 +47,7 @@ const SendUser = () => {
       token: JSON.parse(localStorage.getItem("user")).token
     }
   }).then(() => {
-        router.go()
+        store.commit("changeReload");
       }
   )
 }

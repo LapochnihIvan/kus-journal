@@ -5,5 +5,13 @@ export const store = createStore({
     modules: {
         tasks: tasks,
         moves: moves,
+    },
+    state: () => ({
+        needReload: false
+    }),
+    mutations: {
+        changeReload(state){
+            state.needReload = !state.needReload
+        }
     }
 })

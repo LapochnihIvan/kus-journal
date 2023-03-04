@@ -4,34 +4,43 @@ import {computed, ref, watch} from "vue";
 import axios from "axios";
 import {URL} from "@/utils/config";
 import router from "@/router";
+import {mapState, useStore} from "vuex";
 
 const props = defineProps(["filter_by"])
 const emit = defineEmits(["openModal"])
+const store = useStore()
 
 const users = ref([])
+const getUsers = () => {
+  axios.get(URL + '/get/all/user').then((response) => {
 
-axios.get(URL + '/get/all/user').then((response) => {
-
-  users.value = response.data.users.filter((user) => {
-    return (!user.role.includes("admin") && !user.role.includes("director")) || (JSON.parse(localStorage.getItem("user")).role.includes("admin"))
+    users.value = response.data.users.filter((user) => {
+      return (!user.role.includes("admin") && !user.role.includes("director")) || (JSON.parse(localStorage.getItem("user")).role.includes("admin"))
+    })
+    users.value.sort((f, s) => {
+      if (GetPriority(f.role) > GetPriority(s.role)) {
+        return 1
+      }
+      if (GetPriority(f.role) < GetPriority(s.role)) {
+        return -1
+      }
+      if (f.surname + f.name > s.surname + s.name) {
+        return 1
+      } else {
+        return -1
+      }
+    })
+    users.value.forEach(element=>{element.to_delete = false})
   })
-  users.value.sort((f, s) => {
-    if (GetPriority(f.role) > GetPriority(s.role)) {
-      return 1
-    }
-    if (GetPriority(f.role) < GetPriority(s.role)) {
-      return -1
-    }
-    if (f.surname + f.name > s.surname + s.name) {
-      return 1
-    } else {
-      return -1
-    }
-  })
-  users.value.forEach(element=>{element.to_delete = false})
+}
+getUsers();
 
+let reload = computed(()=>{
+  return store.state.needReload
 })
-
+watch(reload, ()=>{
+  getUsers()
+})
 
 const GetRole = (raw) => {
   const roles = {

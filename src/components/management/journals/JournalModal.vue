@@ -3,6 +3,7 @@ import {ref, watch} from "vue";
 import axios from "axios";
 import {URL} from "@/utils/config";
 import router from "@/router";
+import {useStore} from "vuex";
 
 const props = defineProps(['currentJournal'])
 const groups = ref([])
@@ -10,6 +11,7 @@ const grades = ref([])
 const teachers = ref([])
 const plans = ref([])
 const subjects = ref([])
+const store = useStore()
 
 axios.get(URL + '/get/all/grade[*]').then(response => {
   grades.value = response.data.grades
@@ -77,7 +79,7 @@ const Send = () => {
     url: URL+"/post/journal_table",
     data:data
   }).then(()=>{
-    // router.go()
+    store.commit("changeReload")
   })
 }
 

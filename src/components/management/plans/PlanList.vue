@@ -4,23 +4,33 @@ import {computed, ref, watch} from "vue";
 import axios from "axios";
 import {URL} from "@/utils/config";
 import router from "@/router";
+import {useStore} from "vuex";
 
 const props = defineProps(["filter_by"])
 const emit = defineEmits(["setPlan"])
-
+const store = useStore()
 const plans = ref([])
 
-axios.get(URL + "/get/all/plan[*;subject_id[*]]").then((response) => {
-  plans.value = response.data.plans.sort((el1, el2)=>{
-    if (el1.name>el2.name){
-      return 1
-    }else{
-      return -1
-    }
+const getPlans = ()=>{
+  axios.get(URL + "/get/all/plan[*;subject_id[*]]").then((response) => {
+    plans.value = response.data.plans.sort((el1, el2)=>{
+      if (el1.name>el2.name){
+        return 1
+      }else{
+        return -1
+      }
+    })
+    plans.value.forEach((plan)=>{
+      plan.to_delete = false
+    })
   })
-  plans.value.forEach((plan)=>{
-    plan.to_delete = false
-  })
+}
+getPlans()
+let reload = computed(()=>{
+  return store.state.needReload
+})
+watch(reload, ()=>{
+  getPlans()
 })
 
 const FilteredPlan = computed(() => {
