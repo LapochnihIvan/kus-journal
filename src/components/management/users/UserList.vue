@@ -4,7 +4,7 @@ import {computed, ref, watch} from "vue";
 import axios from "axios";
 import {URL} from "@/utils/config";
 import router from "@/router";
-import {mapState, useStore} from "vuex";
+import {useStore} from "vuex";
 
 const props = defineProps(["filter_by"])
 const emit = defineEmits(["openModal"])
@@ -50,7 +50,8 @@ const GetRole = (raw) => {
     "add_user": "Упр. юзерами",
     "add_journal": "Упр. журналом",
     "add_plan": "Упр. планами",
-    "add_grade": "Упр. классами"
+    "add_grade": "Упр. классами",
+    "submitor": "Участник соревнований"
   }
   let ans = ""
   for (let role of raw) {

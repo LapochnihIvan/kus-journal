@@ -3,10 +3,11 @@ import {computed, ref, watch} from "vue";
 import axios from "axios";
 import {URL} from "@/utils/config";
 import router from "@/router";
+import {useStore} from "vuex";
 
 const props = defineProps(["filter_by"])
 const emit = defineEmits(["openModal"])
-
+const store = useStore()
 const grades = ref([])
 const users = ref([])
 
