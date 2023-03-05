@@ -10,8 +10,6 @@ const props = defineProps(["filter_by"])
 
 const journals = ref([])
 const grades = ref([])
-const groups = ref([])
-const users = ref([])
 const store = useStore()
 
 const getJournals = ()=>{
@@ -38,6 +36,7 @@ const Delete = () => {
 
 const FilteredJournals = computed(() => {
   return journals.value.filter((journal) => {
+
     return journal.plan.name.toLowerCase().includes(props.filter_by.toLowerCase()) ||
         journal.group.name.toLowerCase().includes(props.filter_by.toLowerCase()) ||
         journal.teacher.name.toLowerCase().includes(props.filter_by.toLowerCase())

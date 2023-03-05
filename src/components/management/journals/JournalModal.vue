@@ -2,7 +2,6 @@
 import {ref, watch} from "vue";
 import axios from "axios";
 import {URL} from "@/utils/config";
-import router from "@/router";
 import {useStore} from "vuex";
 
 const props = defineProps(['currentJournal'])
@@ -98,7 +97,6 @@ const Send = () => {
         <div class="modal-body">
           <div class="mb-3">
             <label class="form-label">Учитель</label>
-            {{current_journal}}
             <select class="form-select" v-model="current_journal.teacher">
               <option v-for="teacher in teachers" :value="teacher"> {{ teacher.name }} {{ teacher.surname }}</option>
             </select>

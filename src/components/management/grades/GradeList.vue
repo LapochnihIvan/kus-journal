@@ -9,7 +9,6 @@ const props = defineProps(["filter_by"])
 const emit = defineEmits(["openModal"])
 const store = useStore()
 const grades = ref([])
-const users = ref([])
 
 const GetPriority = (name) => {
   if (!(name[1] === '1' || name[1] === '0')) {
@@ -60,7 +59,7 @@ const Delete = () => {
     data: {
       grades: id
     }
-  }).then((response) => {
+  }).then(() => {
     router.go()
   })
 }
