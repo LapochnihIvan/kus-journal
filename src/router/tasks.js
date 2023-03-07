@@ -7,6 +7,6 @@ export const tasks_routes = [
     {
         path: ':id',
         name: 'task_page',
-        component: ()=>import("@/views/competition/TaskPage.vue")
+        component: ()=>import("@/views/competition/ProblemsPage.vue")
     }
 ]
