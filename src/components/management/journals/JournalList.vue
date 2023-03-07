@@ -4,6 +4,7 @@ import {computed, ref, watch} from "vue";
 import {URL} from "@/utils/config";
 import axios from "axios";
 import {useStore} from "vuex";
+import {Delete} from "@/utils/utils";
 
 const emit = defineEmits(["openModal"])
 const props = defineProps(["filter_by"])
@@ -31,12 +32,6 @@ watch(reload, ()=>{
   getJournals()
 })
 
-
-
-const Delete = () => {
-
-}
-
 const FilteredJournals = computed(() => {
   return journals.value.filter((journal) => {
 
@@ -57,7 +52,7 @@ const FilteredJournals = computed(() => {
       <th>Учитель</th>
       <th style="width: 10%">Изменить</th>
       <th style="width: 10%">
-        <button class="btn btn-danger btn-sm" @click="Delete">Удалить</button>
+        <button class="btn btn-danger btn-sm" @click="Delete(journals, '/drop/journal_table', store)">Удалить</button>
       </th>
     </tr>
     </thead>

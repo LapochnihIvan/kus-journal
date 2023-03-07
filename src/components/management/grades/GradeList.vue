@@ -2,8 +2,8 @@
 import {computed, ref, watch} from "vue";
 import axios from "axios";
 import {URL} from "@/utils/config";
-import router from "@/router";
 import {useStore} from "vuex";
+import {Delete} from "@/utils/utils";
 
 const props = defineProps(["filter_by"])
 const emit = defineEmits(["openModal"])
@@ -47,22 +47,6 @@ const FilteredGrades = computed(() => {
     return grade.name.toLowerCase().includes(props.filter_by.toLowerCase())
   })
 })
-
-const Delete = () => {
-  let id = []
-  grades.value.forEach(element => {
-    element.to_delete ? id.push(element.id) : ''
-  })
-  axios({
-    method: "POST",
-    url: URL + '/drop_grades',
-    data: {
-      grades: id
-    }
-  }).then(() => {
-    router.go()
-  })
-}
 </script>
 
 <template>
@@ -73,7 +57,7 @@ const Delete = () => {
       <th>Классный руководитель</th>
       <th style="width: 10%">Изменить</th>
       <th style="width: 10%">
-        <button class="btn btn-danger btn-sm" @click="Delete">Удалить</button>
+        <button class="btn btn-danger btn-sm" @click="Delete(grades, '/drop/grade', store)">Удалить</button>
       </th>
     </tr>
     </thead>
