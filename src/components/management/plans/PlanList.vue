@@ -44,12 +44,12 @@ const Delete = ()=>{
   plans.value.forEach(element=>{element.to_delete?id.push(element.id):''})
   axios({
     method: "POST",
-    url: URL+'/drop_plans',
+    url: URL+'/drop/plan',
     data:{
-      plans: id
+      id: id
     }
   }).then((response)=>{
-    router.go()
+    store.commit('changeReload')
   })
 }
 
@@ -70,7 +70,6 @@ const Delete = ()=>{
     <tr v-for="plan in FilteredPlan">
       <td>{{ plan.name }}</td>
       <td>{{ plan.subject.name }}</td>
-
       <td>
         <button class="btn btn-primary btn-sm" @click="$emit('setPlan', plan)"><i class="bi bi-pencil-fill"></i>
         </button>

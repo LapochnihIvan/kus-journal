@@ -85,12 +85,12 @@ const Delete = ()=>{
   users.value.forEach(element=>{element.to_delete?id.push(element.id):''})
   axios({
     method: "POST",
-    url: URL+'/drop_users',
+    url: URL+'/drop/user',
     data:{
-      users: id
+      id: id
     }
   }).then((response)=>{
-    router.go()
+    store.commit('changeReload')
   })
 }
 
