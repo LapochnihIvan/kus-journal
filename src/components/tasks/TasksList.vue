@@ -7,7 +7,7 @@ const store = useStore();
 
 <template>
   <ul class="list-group">
-    <li class="list-group-item border-0" v-for="task in store.state.tasks.task_list">
+    <li class="list-group-item border-0" v-for="task in store.state.tasks.problems_list">
       <router-link style="text-decoration: none"
                    class="text-dark"
 

@@ -6,7 +6,7 @@ import axios from "axios";
 
 
 axios.get(URL + "/get/all/problem[id;name]").then((response) => {
-  store.commit("set_task_list", response.data.problems)
+  store.commit("set_problems_list", response.data.problems)
 })
 const store = useStore();
 </script>
