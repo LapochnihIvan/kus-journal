@@ -2,10 +2,9 @@ import axios from "axios";
 import {URL} from "./config";
 import {useStore} from "vuex";
 
-export const Delete = (elements, path)=>{
-    const store = useStore()
+export const Delete = (elements, path, store)=>{
     let id = []
-    elements.value.forEach(element=>{element.to_delete?id.push(element.id):''})
+    elements.forEach(element=>{element.to_delete?id.push(element.id):''})
     axios({
         method: "POST",
         url: URL+path,
@@ -13,6 +12,6 @@ export const Delete = (elements, path)=>{
             id: id
         }
     }).then(()=>{
-        store.commit('changeReload')
+         store.commit('changeReload')
     })
 }

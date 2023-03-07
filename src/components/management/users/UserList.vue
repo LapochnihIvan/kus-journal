@@ -3,9 +3,8 @@
 import {computed, ref, watch} from "vue";
 import axios from "axios";
 import {URL} from "@/utils/config";
-import router from "@/router";
 import {useStore} from "vuex";
-
+import {Delete} from "@/utils/utils";
 const props = defineProps(["filter_by"])
 const emit = defineEmits(["openModal"])
 const store = useStore()
@@ -80,20 +79,6 @@ const GetPriority = (el) => {
 }
 
 
-const Delete = ()=>{
-  let id = []
-  users.value.forEach(element=>{element.to_delete?id.push(element.id):''})
-  axios({
-    method: "POST",
-    url: URL+'/drop/user',
-    data:{
-      id: id
-    }
-  }).then((response)=>{
-    store.commit('changeReload')
-  })
-}
-
 </script>
 
 <template>
@@ -104,7 +89,7 @@ const Delete = ()=>{
       <th>Роль</th>
       <th>Логин</th>
       <th style="width: 10%">Изменить</th>
-      <th style="width: 10%"><button class="btn btn-danger btn-sm" @click="Delete">Удалить</button></th>
+      <th style="width: 10%"><button class="btn btn-danger btn-sm" @click="Delete(users, '/drop/user', store)">Удалить</button></th>
     </tr>
     </thead>
     <tbody>
