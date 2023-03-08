@@ -3,12 +3,32 @@ import {useStore} from "vuex";
 import TasksList from "@/components/tasks/TasksList.vue";
 import {URL} from "@/utils/config"
 import axios from "axios";
-
+const store = useStore();
 
 axios.get(URL + "/get/all/problem[id;name]").then((response) => {
   store.commit("set_problems_list", response.data.problems)
 })
-const store = useStore();
+
+let questions = [
+  {
+    id: 1,
+    title: "Very Interesting Question",
+    text: "<h1>Very Important</h1> another",
+    type: 0,
+    body: {}
+  },
+  {
+    id: 2,
+    title: "Another Interesting Question",
+    text: "<h3>Very Important</h3>",
+    type: 1,
+    body: ["One", "Two"]
+  }
+]
+store.commit("set_questions_list", questions)
+
+
+
 </script>
 
 <template>
