@@ -88,7 +88,6 @@ const SendGrade = () => {
 
 const newStudent = (Istudents) => {
   current_grade.students = Istudents
-  // console.log(Istudents, current_grade.students)
 }
 
 const a = ref()
