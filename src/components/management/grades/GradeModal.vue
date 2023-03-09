@@ -23,7 +23,7 @@ axios.get(URL + '/get/all/user[id;name;surname;role_id]').then((response) => {
 })
 
 const current_grade = reactive({
-  id: '',
+  id: 0,
   name: '',
   students: [''],
   head: {}
@@ -32,18 +32,23 @@ const current_grade = reactive({
 const selected_teacher = ref('')
 
 watch(props, () => {
-  axios.get(URL+'/get/by_id/grade(grade_student[student_id[name;surname;id;role_id]])[*;head_id[id;name;surname;role_id]]/'+props.grade.id).
-  then((response)=>{
-    current_grade.id = response.data.grade.id
-    current_grade.name = response.data.grade.name
-    current_grade.head = response.data.grade.head
-    let students = []
-    for (let i of response.data.grade.grade_students){
-      students.push(i.student)
-    }
-    current_grade.students = students
-  })
-
+  if (props.grade.id !== undefined) {
+    axios.get(URL + '/get/by_id/grade(grade_student[student_id[name;surname;id;role_id]])[*;head_id[id;name;surname;role_id]]/' + props.grade.id).then((response) => {
+      current_grade.id = response.data.grade.id
+      current_grade.name = response.data.grade.name
+      current_grade.head = response.data.grade.head
+      let students = []
+      for (let i of response.data.grade.grade_students) {
+        students.push(i.student)
+      }
+      current_grade.students = students
+    })
+  }else{
+    current_grade.id = 0
+    current_grade.name = ""
+    current_grade.head = {}
+    current_grade.students = []
+  }
 })
 const GetId = computed(() => {
   let id = []
@@ -64,13 +69,13 @@ const SendGrade = () => {
     }
   }
   axios({
-    url: URL + "/manage_grade",
+    url: URL + "/post/grade",
     method: "POST",
     data: {
       id: current_grade.id,
       name: current_grade.name,
-      head: current_grade.head.id,
-      students: id,
+      head_id: current_grade.head.id,
+      grade_student: id,
     },
     headers: {
       token: JSON.parse(localStorage.getItem("user")).token
@@ -98,7 +103,7 @@ const send = () => {
     headers: {
       'Content-Type': 'multipart/form-data'
     }
-  }).then((res)=>{
+  }).then((res) => {
     console.log(res)
   })
 }
@@ -134,7 +139,10 @@ const send = () => {
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-primary me-auto"  @click="router.push({name: 'group_management', params:{grade: JSON.stringify(current_grade)}})" data-bs-dismiss="modal">Открыть группы</button>
+          <button type="button" class="btn btn-outline-primary me-auto"
+                  @click="router.push({name: 'group_management', params:{grade: JSON.stringify(current_grade)}})"
+                  data-bs-dismiss="modal">Открыть группы
+          </button>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
           <button type="button" class="btn btn-primary" @click="SendGrade" data-bs-dismiss="modal">Сохранить</button>
         </div>

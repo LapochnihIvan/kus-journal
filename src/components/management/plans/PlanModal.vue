@@ -49,7 +49,7 @@ const Send = () => {
     data:data,
     headers: headers
 
-  }).then((response)=>{
+  }).then(()=>{
     store.commit("changeReload")
   })
 }
