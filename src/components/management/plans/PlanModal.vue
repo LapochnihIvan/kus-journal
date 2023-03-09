@@ -37,14 +37,17 @@ const Send = () => {
     data.file = file.value
   }
   let path = file.value !== undefined?"/upload/plan":"/post/plan"
+  let headers = {
+    'token': JSON.parse(localStorage.getItem("user")).token
+  }
+  if (file.value !== undefined){
+    headers['Content-Type'] = 'multipart/form-data'
+  }
   axios({
     url: URL + path,
     method: "POST",
     data:data,
-    headers: {
-      'Content-Type': 'multipart/form-data',
-      'token': JSON.parse(localStorage.getItem("user")).token
-    }
+    headers: headers
 
   }).then((response)=>{
     store.commit("changeReload")
