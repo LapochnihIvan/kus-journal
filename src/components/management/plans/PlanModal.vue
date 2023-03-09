@@ -11,8 +11,14 @@ const current_plan = reactive({
   id: '',
   name: '',
   subject: '',
-  url: ''
+  url: '',
+  type: ''
 })
+const types = ref()
+axios.get(URL+"/get/all/plan_upload").then((response)=>{
+  types.value = response.data.plan_uploads
+})
+
 watch(props, () => {
   current_plan.id = props.plan.id === undefined ? 0 : props.plan.id
   current_plan.name = props.plan.name
@@ -25,28 +31,34 @@ axios.get(URL + "/get/all/subject[*]").then((response) => {
 })
 
 const file = ref()
-
+const set_file = (event)=>{
+  file.value = event.target.files[0];
+}
 const Send = () => {
   let data = {}
   data.id = current_plan.id
   data.subject_id = current_plan.subject.id
   data.name = current_plan.name
-
+  data.index = current_plan.type.index
   if (file.value !== undefined){
     data.filename = file.value.name
     data.file = file.value
   }
   let path = file.value !== undefined?"/upload/plan":"/post/plan"
+  let headers = {
+    'token': JSON.parse(localStorage.getItem("user")).token
+  }
+  if (file.value !== undefined){
+    headers['Content-Type'] = 'multipart/form-data'
+  }
+  console.log(data)
   axios({
     url: URL + path,
     method: "POST",
     data:data,
-    headers: {
-      'Content-Type': 'multipart/form-data',
-      'token': JSON.parse(localStorage.getItem("user")).token
-    }
+    headers: headers
 
-  }).then((response)=>{
+  }).then(()=>{
     store.commit("changeReload")
   })
 }
@@ -73,10 +85,15 @@ const Send = () => {
             <div class="form-text">Это короткое имя которое будет видеть педагог</div>
           </div>
           <div class="mb-3">
+            <label class="form-label">Тип файла</label>
+            <select class="form-select" v-model="current_plan.type">
+              <option v-for="type in types" :value="type">{{ type.name }}</option>
+            </select>
+            <div class="form-text">Тип файла плана</div>
+          </div>
+          <div class="mb-3">
             <label class="form-label">Файл плана</label>
-            <p><a v-if="current_plan.url !== ''" :href="FOR_ASSETS+'/'+current_plan.url" download>Скачать текущий
-              план</a></p>
-            <input type="file" class="form-control" @change="(event)=>{file = event.target.files[0]}">
+            <input type="file" class="form-control" @change="set_file">
             <div class="form-text">Планы автоматически обработаются в системе</div>
           </div>
         </div>
