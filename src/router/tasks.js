@@ -5,8 +5,13 @@ export const tasks_routes = [
         component: ()=>import("@/views/competition/TaskFiller.vue")
     },
     {
-        path: ':id',
-        name: 'task_page',
+        path: 'problem/:id',
+        name: 'problem_page',
         component: ()=>import("@/views/competition/ProblemsPage.vue")
+    },
+    {
+        path: 'question/:id',
+        name: 'question_page',
+        component: ()=>import("@/views/competition/QuestionPage.vue")
     }
 ]

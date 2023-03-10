@@ -10,9 +10,15 @@ const store = useStore();
     <li class="list-group-item border-0" v-for="task in store.state.tasks.problems_list">
       <router-link style="text-decoration: none"
                    class="text-dark"
-
-                   :to="{'name': 'task_page', params:{'id': task.id}}">
+                   :to="{'name': 'problem_page', params:{'id': task.id}}">
         {{ task.name }}
+      </router-link>
+    </li>
+    <li class="list-group-item border-0" v-for="task in store.state.tasks.questions_list">
+      <router-link style="text-decoration: none"
+                   class="text-dark"
+                   :to="{'name': 'question_page', params:{'id': task.id}}">
+        {{ task.title }}
       </router-link>
     </li>
   </ul>

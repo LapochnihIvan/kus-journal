@@ -1,6 +1,6 @@
 <script setup>
 import {useRoute} from "vue-router";
-import {onMounted, onUpdated, ref, watch} from "vue";
+import {ref, watch} from "vue";
 import {URL} from "@/utils/config"
 import axios from "axios";
 import SubmissionList from "@/components/tasks/SubmissionList.vue";
