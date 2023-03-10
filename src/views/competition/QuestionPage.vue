@@ -34,6 +34,11 @@ switch (question.value.type) {
 const Submit = ()=>{
   console.log(question.value.answer)
 }
+
+window.addEventListener('beforeunload', function (e) {
+  e.preventDefault();
+  e.returnValue = '';
+});
 </script>
 
 <template>
