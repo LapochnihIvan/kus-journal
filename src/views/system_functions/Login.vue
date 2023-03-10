@@ -1,4 +1,4 @@
-<script setup >
+<script setup>
 import "bootstrap-icons/font/bootstrap-icons.css";
 import router from "@/router";
 import {ref} from "vue";
@@ -15,16 +15,17 @@ const error = ref(false)
 
 function login() {
   axios({
-    method:"POST",
-    url: URL+"/login",
+    method: "POST",
+    url: URL + "/login",
     data: {
       "login": username.value,
       "password": password.value
     }
-  }).then((response)=>{
-      localStorage.setItem("user", JSON.stringify(response.data.user));
-      router.push({name: "homepage"});
-  }).catch(()=>{
+  }).then((response) => {
+    console.log(response.data)
+    localStorage.setItem("user", JSON.stringify(response.data.users[0]));
+    router.push({name: "homepage"});
+  }).catch(() => {
     error.value = true;
   })
 
