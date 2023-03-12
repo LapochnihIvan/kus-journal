@@ -20,7 +20,7 @@ const updateQuestion = () => {
   if (store.state.tasks.questions_list.length === 0) {
     axios.get(URL + "/get_question/contest=" + JSON.parse(localStorage.getItem("user")).school_id + "/user_id=" + JSON.parse(localStorage.getItem("user")).id).then((response) => {
       for(let question of response.data.questions){
-        question.sent = false;
+        question.sent = question.user_answer !== undefined;
       }
       store.commit("set_questions_list", response.data.questions)
       getState();
@@ -56,7 +56,7 @@ const Submit = () => {
     data:{
       "user_id": JSON.parse(localStorage.getItem("user")).id,
       "question_id": Number(router.params.id),
-      "answer": question.value.answer,
+      "user_answer": question.value.user_answer,
       "time": new Date().toISOString()
     }
   }).then(()=>{
@@ -79,7 +79,7 @@ window.addEventListener('beforeunload', function (e) {
         <label class="form-label">{{ question_label }}</label>
         <div class="row">
           <div class="col-4">
-            <input class="form-control" maxlength="10" v-model="question.answer" required>
+            <input class="form-control" maxlength="10" v-model="question.user_answer" required>
           </div>
           <div class="col-4">
             <button class="btn btn-primary" type="submit" @click="Submit">{{ question.sent ? "Изменить ответ" : "Отправить"}}</button>
