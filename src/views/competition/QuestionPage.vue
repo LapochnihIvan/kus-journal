@@ -19,6 +19,9 @@ const getState = () => {
 const updateQuestion = () => {
   if (store.state.tasks.questions_list.length === 0) {
     axios.get(URL + "/get_question/contest=" + JSON.parse(localStorage.getItem("user")).school_id + "/user_id=" + JSON.parse(localStorage.getItem("user")).id).then((response) => {
+      for(let question of response.data.questions){
+        question.sent = false;
+      }
       store.commit("set_questions_list", response.data.questions)
       getState();
     })
@@ -41,23 +44,23 @@ const question_label = computed(() => {
     case 2:
       return "Выберите все правильные ответы"
     default:
-      return "Саня, сделай нормаьлный тип"
+      return "Загрузка...."
   }
 })
 
 
 const Submit = () => {
   axios({
-    url: URL + "/post/api/user_answer",
+    url: URL + "/post/user_answer",
     method: "POST",
     data:{
       "user_id": JSON.parse(localStorage.getItem("user")).id,
-      "question_id": router.params.id,
+      "question_id": Number(router.params.id),
       "answer": question.value.answer,
       "time": new Date().toISOString()
     }
   }).then(()=>{
-    CreateMessage("Ответ на задачу "+question.value.title+" записан", "successful")
+    question.value.sent = true
   })
 }
 
@@ -79,7 +82,7 @@ window.addEventListener('beforeunload', function (e) {
             <input class="form-control" maxlength="10" v-model="question.answer" required>
           </div>
           <div class="col-4">
-            <button class="btn btn-primary" type="submit" @click="Submit">Отправить</button>
+            <button class="btn btn-primary" type="submit" @click="Submit">{{ question.sent ? "Изменить ответ" : "Отправить"}}</button>
           </div>
         </div>
       </form>

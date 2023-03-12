@@ -11,6 +11,10 @@ const store = useStore();
 
 
 axios.get(URL+"/get_question/contest="+JSON.parse(localStorage.getItem("user")).school_id+"/user_id="+JSON.parse(localStorage.getItem("user")).id).then((response)=>{
+  for(let question of response.data.questions){
+    question.sent = false;
+  }
+  console.log(response.data.questions)
   store.commit("set_questions_list", response.data.questions)
 })
 
