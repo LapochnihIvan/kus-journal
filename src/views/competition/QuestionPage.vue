@@ -1,38 +1,64 @@
 <script setup>
 import {useRoute} from "vue-router";
-import {ref, watch} from "vue";
+import {computed, onBeforeMount, ref, watch} from "vue";
 import {useStore} from "vuex";
+import axios from "axios";
+import {URL} from "@/utils/config"
+import {CreateMessage} from "../../components/messages/utils";
 
 const router = useRoute()
 const store = useStore()
 
 const question = ref('')
-const updateQuestion = () => {
+
+const getState = () => {
   question.value = store.state.tasks.questions_list.find((el) => {
     return el.id === Number(router.params.id)
   })
 }
-updateQuestion()
+const updateQuestion = () => {
+  if (store.state.tasks.questions_list.length === 0) {
+    axios.get(URL + "/get_question/contest=" + JSON.parse(localStorage.getItem("user")).school_id + "/user_id=" + JSON.parse(localStorage.getItem("user")).id).then((response) => {
+      store.commit("set_questions_list", response.data.questions)
+      getState();
+    })
+
+  } else {
+
+    getState();
+  }
+}
+onBeforeMount(updateQuestion);
 watch(router, () => {
   updateQuestion()
 })
+const question_label = computed(() => {
+  switch (question.value.type) {
+    case 0:
+      return "Введите правильный ответ";
+    case 1:
+      return "Выберите один правильный ответ";
+    case 2:
+      return "Выберите все правильные ответы"
+    default:
+      return "Саня, сделай нормаьлный тип"
+  }
+})
 
-let question_label = ''
-switch (question.value.type) {
-  case 0:
-    question_label = "Введите правильный ответ";
-    break
-  case 1:
-    question_label = "Выберите один правильный ответ";
-    break
-  case 2:
-    question_label = "Выберите все правильные ответы"
-    break
-  default:
-    question_label = "Саня, сделай нормаьлный тип"
-}
-const Submit = ()=>{
-  console.log(question.value.answer)
+
+const Submit = () => {
+  axios({
+    url: URL + "/post/api/user_answer",
+    method: "POST",
+    data:{
+      "user_id": JSON.parse(localStorage.getItem("user")).id,
+      "question_id": router.params.id,
+      "answer": question.value.answer,
+      "time": new Date().toISOString()
+    }
+  }).then(()=>{
+    CreateMessage("Ответ на задачу "+question.value.title+" записан", "successful")
+  })
 }
 
 window.addEventListener('beforeunload', function (e) {
@@ -45,7 +71,6 @@ window.addEventListener('beforeunload', function (e) {
   <div class="ps-5">
     <h3 class="my-3">{{ question.title }}</h3>
     <div v-html="question.legend" class="border-top pt-3"></div>
-
     <div class="my-3 border-top py-3">
       <form action="" onsubmit="return false">
         <label class="form-label">{{ question_label }}</label>
@@ -57,7 +82,6 @@ window.addEventListener('beforeunload', function (e) {
             <button class="btn btn-primary" type="submit" @click="Submit">Отправить</button>
           </div>
         </div>
-
       </form>
     </div>
   </div>
