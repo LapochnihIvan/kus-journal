@@ -41,6 +41,9 @@ function login() {
         <div class="alert alert-danger" role="alert" v-if="error">
           Неправильный логин или пароль
         </div>
+        <div class="alert alert-info">
+          Для связи с организаторами пишите в <a href="https://t.me/kussystembot">техподдержку</a>
+        </div>
         <div class="form-group my-3">
           <label for="username" class="form-label">Имя пользователя</label>
           <input type="text" name="username" id="username" class="form-control" v-model="username">

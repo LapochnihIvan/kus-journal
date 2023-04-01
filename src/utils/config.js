@@ -1,2 +1,2 @@
-export const URL = "https://kusjournal.ru/api";
-export const FOR_ASSETS = "https://kusjournal.ru"
+export const URL = "https://kusmirror.ru/api";
+export const FOR_ASSETS = "https://kusmirror.ru"
