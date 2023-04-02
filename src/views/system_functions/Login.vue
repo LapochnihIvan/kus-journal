@@ -30,6 +30,11 @@ function login() {
   })
 
 }
+const pass = ref(true)
+
+const change = ()=>{
+  pass.value = !pass.value
+}
 </script>
 
 
@@ -52,8 +57,8 @@ function login() {
           <label for="username" class="form-label">Пароль</label>
 
           <div class="input-group my-3" id="show_hide_password">
-            <input type="password" name="password" id="pass" class="form-control" v-model="password">
-            <button class="btn btn-secondary" type="button" onclick="">
+            <input :type="pass?'password':'text'" name="password" id="pass" class="form-control" v-model="password">
+            <button class="btn btn-secondary" type="button" @click="change">
               <i id="icon" class="bi bi-eye-fill"></i>
             </button>
           </div>
