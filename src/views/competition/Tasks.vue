@@ -40,6 +40,12 @@ axios.get(URL+"/get_all_competition/"+JSON.parse(localStorage.getItem("user")).i
         <TasksList/>
       </div>
       <div class="col-10 h-100">
+        <div class="alert alert-info">
+          Для связи с организаторами пишите в <a href="https://t.me/kussystembot">техподдержку</a>
+        </div>
+        <div class="alert alert-info">
+          Система может проверять задания достаточно долго
+        </div>
         <router-view></router-view>
       </div>
     </div>
