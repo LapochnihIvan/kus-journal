@@ -1,3 +1,3 @@
 
-export const URL = "https://kusmirror.ru/api";
+export const URL = "/api";
 export const FOR_ASSETS = ""
