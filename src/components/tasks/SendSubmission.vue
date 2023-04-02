@@ -8,7 +8,7 @@ const lang = ref('.cpp')
 const file = ref()
 
 const send = () => {
-  axios.post("http://kusmirror.ru:18080/api/submit", {
+  axios.post(URL+"/submit", {
     problem_id: props.task_id,
     user_id: JSON.parse(localStorage.getItem("user")).id,
     fileName: lang.value,
