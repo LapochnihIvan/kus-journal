@@ -50,7 +50,12 @@ export const home_routes = [
         component: ()=>import("@/views/metodist/MakeMove.vue")
     },
     {
-        path: 'task_list',
+        path: 'competitions',
+        name: 'competitions',
+        component: ()=>import("@/views/competition/CompetitonPage.vue")
+    },
+    {
+        path: 'task_list/:c_id',
         name: 'task_list',
         children: tasks_routes,
         component: ()=>import("@/views/competition/Tasks.vue")

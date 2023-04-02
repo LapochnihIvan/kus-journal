@@ -20,25 +20,38 @@ const sort_by_date = (a, b)=>{
   }
 }
 
-const task = ref({})
-axios.get(URL + "/problem/" + router.params.id + "/" + JSON.parse(localStorage.getItem("user")).id).then((response) => {
-  task.value = response.data.problem
-  store.commit("set_submissions", task.value.submissions.sort(sort_by_date))
-})
+// const task = ref({})
+// axios.get(URL + "/problem/" + router.params.id + "/" + JSON.parse(localStorage.getItem("user")).id).then((response) => {
+//   task.value = response.data.problem
+//   store.commit("set_submissions", task.value.submissions.sort(sort_by_date))
+// })
+//
 
-watch(router, () => {
-  axios.get(URL + "/problem/" + router.params.id + "/" + JSON.parse(localStorage.getItem("user")).id).then((response) => {
-    task.value = response.data.problem
-    store.commit("set_submissions", task.value.submissions.sort(sort_by_date))
+
+const task = ref(store.state.tasks.problems_list.find((el)=>{return el.id === Number(router.params.id)}))
+if (store.state.tasks.problems_list.length === 0){
+  axios.get(URL+"/get_all_competition/"+JSON.parse(localStorage.getItem("user")).id+"/"+router.params.c_id).then((response)=> {
+    if (store.state.tasks.problems_list.length === 0){
+      store.commit("set_problems_list", response.data.problems)
+    }
+    task.value = store.state.tasks.problems_list.find((el)=>{return el.id === Number(router.params.id)})
   })
-
+}
+watch(router, () => {
+  task.value = store.state.tasks.problems_list.find((el)=>{return el.id === Number(router.params.id)})
+  if (store.state.tasks.problems_list.length === 0){
+    axios.get(URL+"/get_all_competition/"+JSON.parse(localStorage.getItem("user")).id+"/"+router.params.c_id).then((response)=> {
+      if (store.state.tasks.problems_list.length === 0){
+        store.commit("set_problems_list", response.data.problems)
+      }
+      task.value = store.state.tasks.problems_list.find((el)=>{return el.id === Number(router.params.id)})
+    })
+  }
 })
-
-
 </script>
 
 <template>
-  <div class="ps-5">
+  <div class="ps-5" v-if="task">
     <div class="row">
       <div class="col-8">
         <h3 class="my-3">{{ task.name }}</h3>
@@ -55,7 +68,7 @@ watch(router, () => {
             STDOUT
           </div>
         </div>
-        <div class="row gx-2 mt-1" v-for="example in task.examples">
+        <div class="row gx-2 mt-1" v-for="example in task.tests">
           <div class="col-6">
             <div class="p-2 " style="background-color: #f8f8f8" v-html="example.input"></div>
           </div>
@@ -73,8 +86,11 @@ watch(router, () => {
           </div>
         </div>
       </div>
-      <div class="col-4 my-3" ><SubmissionList /></div>
+      <div class="col-4 my-3" ><SubmissionList :submissions="task.submission"/></div>
     </div>
+  </div>
+  <div v-else>
+    Страница загружается, выберите другую задачу из списка
   </div>
   <SendSubmission :task_id="router.params.id"/>
 </template>

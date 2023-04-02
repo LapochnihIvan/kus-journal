@@ -6,6 +6,7 @@ export const tasks = {
     }),
     mutations:{
         set_problems_list(state, new_list) {
+            console.log("Now")
             state.problems_list = new_list
         },
         set_submissions(state, submissions) {

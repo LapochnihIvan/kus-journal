@@ -27,7 +27,6 @@ const updateQuestion = () => {
     })
 
   } else {
-
     getState();
   }
 }
