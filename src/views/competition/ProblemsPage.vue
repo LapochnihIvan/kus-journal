@@ -70,10 +70,10 @@ watch(router, () => {
         </div>
         <div class="row gx-2 mt-1" v-for="example in task.tests">
           <div class="col-6">
-            <div class="p-2 " style="background-color: #f8f8f8" v-html="example.input"></div>
+            <div class="p-2 " style="background-color: #f8f8f8" v-html="'<pre>'+example.input+'</pre>'"></div>
           </div>
           <div class="col-6" >
-            <div class="p-2 " style="background-color: #f8f8f8" v-html="example.output"></div>
+            <div class="p-2 " style="background-color: #f8f8f8" v-html="'<pre>'+example.output+'</pre>'"></div>
           </div>
         </div>
         <div class="row mt-5">
