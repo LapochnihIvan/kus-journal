@@ -11,11 +11,11 @@ axios.get(URL + "/get/if/user_competition[competition_id[id;name;start_time]]/us
     el.competition.start_time = new Date(el.competition.start_time)
   })
   if (competitions.value.user_competitions.lenght === undefined) {
-    const d = new Date("2023-04-02T06:00:00.632Z")
+    const d = new Date("2023-04-03T12:00:00.632Z")
     competitions.value.user_competitions.push({
       "competition": {
-        "id": 1,
-        "name": "Пробный тур",
+        "id": 2,
+        "name": "Основной тур",
         "start_time": d
       }
     })

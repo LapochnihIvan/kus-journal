@@ -8,11 +8,12 @@ const lang = ref('.cpp')
 const file = ref()
 
 const send = () => {
+  console.log(file.value[0])
   axios.post(URL+"/submit", {
     problem_id: props.task_id,
     user_id: JSON.parse(localStorage.getItem("user")).id,
-    fileName: lang.value,
-    file: file
+    filename: "some"+lang.value,
+    file: file.value[0]
   }, {
     headers: {
       "Content-Type": "multipart/form-data",
