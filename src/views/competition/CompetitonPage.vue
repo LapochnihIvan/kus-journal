@@ -41,6 +41,7 @@ const compare_time = (time) => {
                      :to="{name: 'task_list', params:{'c_id': competition.competition.id}}"
                      v-if="compare_time(competition.competition.start_time)">Участвовать
         </router-link>
+
         <a class="btn btn-outline-secondary" v-else>Соревнование закрыто</a>
       </div>
     </div>
