@@ -2,24 +2,16 @@
 import {computed, ref} from "vue";
 import axios from "axios";
 import {URL} from "@/utils/config"
-import moment from "moment";
 
 const competitions = ref()
 
 axios.get(URL + "/get/if/user_competition[competition_id[id;name;start_time]]/user_id=" + JSON.parse(localStorage.getItem("user")).id).then((response) => {
   competitions.value = response.data;
   competitions.value.user_competitions.forEach((el) => {
-    let true_date = new Date()
-    let date = el.competition.start_time.split(' ')[0]
-    true_date.setFullYear(date.split('-')[0], date.split('-')[1], date.split('-')[2])
-    let time = el.competition.start_time.split(' ')[1]
-    true_date.setHours(time.split(':')[0])
-    true_date.setMinutes(time.split(':')[1])
-    true_date.setSeconds(time.split(':')[2])
-    el.competition.start_time = true_date
+    el.competition.start_time = new Date(el.competition.start_time)
   })
   if (competitions.value.user_competitions.lenght === undefined) {
-    const d = new Date("2023-05-02T06:00:00.632Z")
+    const d = new Date("2023-04-02T06:00:00.632Z")
     competitions.value.user_competitions.push({
       "competition": {
         "id": 1,
@@ -36,7 +28,7 @@ const now_time = computed(() => {
 })
 const compare_time = (time) => {
   const c = new Date()
-  return c.getHours() >= time.getHours() && c.getDate() >= time.getDate()
+  return c.valueOf() >= time.valueOf()
 }
 </script>
 
