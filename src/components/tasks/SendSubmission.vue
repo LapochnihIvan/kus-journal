@@ -40,6 +40,7 @@ const send = () => {
               <select class="form-select" v-model="lang">
                 <option selected value=".cpp">C++20</option>
                 <option value=".py">Python 3.10</option>
+                <option value=".pac">Pascal</option>
               </select>
             </div>
             <div class="mb-3">
