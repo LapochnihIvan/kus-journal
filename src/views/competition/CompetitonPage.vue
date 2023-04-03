@@ -39,7 +39,7 @@ const compare_time = (time) => {
         <h5 class="card-title">{{ competition.competition.name }}</h5>
         <router-link class="btn btn-outline-primary"
                      :to="{name: 'task_list', params:{'c_id': competition.competition.id}}"
-                     v-if="compare_time(competition.competition.start_time)">Участвовать
+                     v-if="true">Участвовать
         </router-link>
 
         <a class="btn btn-outline-secondary" v-else>Соревнование закрыто</a>
