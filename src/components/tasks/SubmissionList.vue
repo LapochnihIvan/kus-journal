@@ -5,6 +5,13 @@ import {ref, watch} from "vue";
 
 const store = useStore()
 const props = defineProps(["submissions"])
+const result = {
+  "NUN": "Проерка",
+  "CE": "Ошибка компиляции",
+  "Nu": "Тестируется",
+  "WA": "Неправильный ответ",
+  "OK": "Решение сдано"
+}
 </script>
 
 <template>
@@ -19,7 +26,7 @@ const props = defineProps(["submissions"])
     <tbody>
     <tr v-for="submission in submissions">
       <td class="border-end">{{submission.test === -1?' ':submission.test }}</td>
-      <td>{{submission.verdict === "NUN"?'Проверка': submission.verdict}}</td>
+      <td>{{result[submission.verdict] === undefined?submission.verdict: result[submission.verdict]}}</td>
     </tr>
     </tbody>
   </table>
