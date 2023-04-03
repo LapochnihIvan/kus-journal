@@ -55,11 +55,11 @@ watch(router, () => {
     <div class="row">
       <div class="col-8">
         <h3 class="my-3">{{ task.name }}</h3>
-        <p>{{ task.legend }}</p>
+        <p v-html="task.legend"></p>
         <h5>Входные данные</h5>
-        <p>{{ task.input_format }}</p>
+        <p v-html="task.input_format"></p>
         <h5>Выходные данные</h5>
-        <p>{{ task.output_format }}</p>
+        <p v-html="task.output_format"></p>
         <div class="row gx-2 mt-1">
           <div class="col-6 text-secondary fw-light">
             STDIN

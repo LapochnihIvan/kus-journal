@@ -6,18 +6,6 @@ import axios from "axios";
 import {useRoute} from "vue-router";
 const store = useStore();
 const router = useRoute()
-// axios.get(URL + "/get/all/problem[id;name]").then((response) => {
-//   store.commit("set_problems_list", response.data.problems)
-// })
-
-
-// axios.get(URL+"/get_question/contest="+JSON.parse(localStorage.getItem("user")).school_id+"/user_id="+JSON.parse(localStorage.getItem("user")).id).then((response)=>{
-//   for(let question of response.data.questions){
-//
-//     question.sent = question.user_answer !== undefined;
-//   }
-//   store.commit("set_questions_list", response.data.questions)
-// })
 
 axios.get(URL+"/get_all_competition/"+JSON.parse(localStorage.getItem("user")).id+"/"+router.params.c_id).then((response)=> {
   console.log("Response get me: ", response.data)
