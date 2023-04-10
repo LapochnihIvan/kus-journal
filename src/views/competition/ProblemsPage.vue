@@ -28,6 +28,7 @@ const sort_by_date = (a, b)=>{
 //
 
 
+
 const task = ref(store.state.tasks.problems_list.find((el)=>{return el.id === Number(router.params.id)}))
 if (store.state.tasks.problems_list.length === 0){
   axios.get(URL+"/get_all_competition/"+JSON.parse(localStorage.getItem("user")).id+"/"+router.params.c_id).then((response)=> {
