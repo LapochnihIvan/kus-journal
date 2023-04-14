@@ -7,12 +7,11 @@ import {useRoute} from "vue-router";
 const store = useStore();
 const router = useRoute()
 
-axios.get(URL+"/get_all_competition/"+JSON.parse(localStorage.getItem("user")).id+"/"+router.params.c_id).then((response)=> {
+axios.get(URL+"/get/if/competition_problem/competition_id="+router.params.c_id).then((response)=> {
   console.log("Response get me: ", response.data)
-  if (store.state.tasks.problems_list.length === 0){
-    store.commit("set_problems_list", response.data.problems)
+  if (store.state.tasks.questions_list.length === 0){
+    store.commit("set_questions_list", response.data.competition_problems)
   }
-
 })
 
 
@@ -31,9 +30,9 @@ axios.get(URL+"/get_all_competition/"+JSON.parse(localStorage.getItem("user")).i
         <div class="alert alert-info">
           Для связи с организаторами пишите в <a href="https://t.me/kussystembot">техподдержку</a>
         </div>
-        <div class="alert alert-info">
-          Система может проверять задания достаточно долго
-        </div>
+<!--        <div class="alert alert-info">-->
+<!--          Система может проверять задания достаточно долго-->
+<!--        </div>-->
         <router-view></router-view>
       </div>
     </div>

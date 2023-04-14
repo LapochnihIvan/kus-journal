@@ -14,6 +14,13 @@ export const tasks = {
         },
         set_questions_list(state, new_list){
             state.questions_list = new_list
+        },
+        update_singe_question(state, id, new_value) {
+            for (let i = 0; i<state.questions_list.length; i++){
+                if (state.questions_list[i].id === id){
+                    state.questions_list[i] = new_value
+                }
+            }
         }
     }
 }
