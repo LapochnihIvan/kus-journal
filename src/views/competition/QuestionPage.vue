@@ -12,37 +12,37 @@ const store = useStore()
 const question = ref('')
 
 const getState = () => {
-    question.value = store.state.tasks.questions_list.find((el) => {
-        return el.id === Number(router.params.id)
-    })
+    let store_question = store.state.tasks.questions_list.find((el)=>{return el.id === Number(router.params.id)})
+    if (store_question.legend === undefined){
+        console.log("load")
+        axios.get(URL + "/get_question/" + router.params.id + "/" + JSON.parse(localStorage.getItem("user")).id).then((response) => {
+            question.value = response.data.question
+            if(question.value.answer){
+                question.value.answer = question.value.answer.slice(0, question.value.answer.length-1)
+                question_ans.value = question.value.answer
+            }
+            store.commit('update_singe_question', {'id': question.value.id,'new_value': question.value})
+        })
+    }else{
+        question.value = store_question
+        question_ans.value = question.value.answer
+    }
 }
 
 const question_ans = ref()
 const updateQuestion = () => {
-
-    // if (store.state.tasks.questions_list.length === 0) {
-    //   axios.get(URL + "/get_question/contest=" + JSON.parse(localStorage.getItem("user")).school_id + "/user_id=" + JSON.parse(localStorage.getItem("user")).id).then((response) => {
-    //     for(let question of response.data.questions){
-    //       question.sent = question.user_answer !== undefined;
-    //     }
-    //     store.commit("set_questions_list", response.data.questions)
-    //     getState();
-    //   })
-    //
-    // } else {
-    //   getState();
-    // }
-    // console.log(router.params.id)
-    // let store_question = store.state.tasks.questions_list.find((el)=>{console.log(el.id, router.params.id); return el.id === router.params.id})
-    // console.log(store_question)
-    // if (store_question.legend === undefined){
-        axios.get(URL + "/get_question/" + router.params.id + "/" + JSON.parse(localStorage.getItem("user")).id).then((response) => {
-            question.value = response.data.question
-            question.value.answer = question.value.answer.slice(0, question.value.answer.length-1)
-            console.log(question.value)
-            question_ans.value = question.value.answer
+    if (store.state.tasks.questions_list.length === 0) {
+        axios.get(URL+"/get/if/competition_problem/competition_id="+router.params.c_id).then((response)=> {
+            if (store.state.tasks.questions_list.length === 0){
+                store.commit("set_questions_list", response.data.competition_problems)
+            }
+            getState()
         })
-    // }
+    }
+    else{
+        getState()
+    }
+
 
 }
 onBeforeMount(updateQuestion);
@@ -64,11 +64,6 @@ const question_label = computed(() => {
 
 
 const Submit = () => {
-    console.log({
-        "user_id": JSON.parse(localStorage.getItem("user")).id,
-        "question_id": Number(router.params.id),
-        "value": question_ans.value,
-    })
     axios({
         url: URL + "/post/answer",
         method: "POST",
@@ -79,7 +74,8 @@ const Submit = () => {
         }
     }).then((response) => {
         question.value.sent = true
-        updateQuestion()
+        question.value.answer = question_ans.value
+        store.commit('update_singe_question', {'id': question.value.id,'new_value': question.value})
     })
 }
 

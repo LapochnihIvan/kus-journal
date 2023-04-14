@@ -8,7 +8,7 @@ const store = useStore();
 const router = useRoute()
 
 axios.get(URL+"/get/if/competition_problem/competition_id="+router.params.c_id).then((response)=> {
-  console.log("Response get me: ", response.data)
+  // console.log("Response get me: ", response.data)
   if (store.state.tasks.questions_list.length === 0){
     store.commit("set_questions_list", response.data.competition_problems)
   }
