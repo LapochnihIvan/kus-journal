@@ -6,7 +6,6 @@ export const tasks = {
     }),
     mutations:{
         set_problems_list(state, new_list) {
-            console.log("Now")
             state.problems_list = new_list
         },
         set_submissions(state, submissions) {
@@ -19,6 +18,15 @@ export const tasks = {
             for (let i = 0; i<state.questions_list.length; i++){
                 if (state.questions_list[i].id === id){
                     state.questions_list[i] = new_value
+                    break
+                }
+            }
+        },
+        update_single_problem(state, {id, new_value}){
+            for (let i = 0; i<state.problems_list.length; i++){
+                if (state.problems_list[i].id === id){
+                    state.problems_list[i] = new_value
+                    break
                 }
             }
         }

@@ -6,6 +6,7 @@ const store = useStore();
 </script>
 
 <template>
+
   <ul class="list-group">
     <li class="list-group-item border-0 py-1" v-for="task in store.state.tasks.problems_list">
       <router-link style="text-decoration: none"

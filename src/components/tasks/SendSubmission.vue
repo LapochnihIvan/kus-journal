@@ -4,11 +4,11 @@ import axios from "axios";
 import {URL} from "@/utils/config"
 
 const props = defineProps(["task_id"])
+const emits = defineEmits(["reget_problem"])
 const lang = ref('.cpp')
 const file = ref()
 
 const send = () => {
-  console.log(file.value[0])
   axios.post(URL+"/submit", {
     problem_id: props.task_id,
     user_id: JSON.parse(localStorage.getItem("user")).id,
@@ -19,7 +19,8 @@ const send = () => {
       "Content-Type": "multipart/form-data",
     }
   }).then((response)=>{
-    console.log(response)
+      console.log("Sent")
+    emit("reget_problem")
   })
 }
 </script>

@@ -12,7 +12,13 @@ onMounted(()=>{
     axios.get(URL + "/get/if/competition_question/competition_id=" + router.params.c_id).then((response) => {
         // console.log("Response get me: ", response.data)
         if (store.state.tasks.questions_list.length === 0) {
-            store.commit("set_questions_list", response.data.competition_problems)
+            store.commit("set_questions_list", response.data.competition_questions)
+        }
+    })
+    axios.get(URL + "/get/if/competition_problem/competition_id=" + router.params.c_id).then((response) => {
+        // console.log("Response get me: ", response.data)
+        if (store.state.tasks.problems_list.length === 0) {
+            store.commit("set_problems_list", response.data.competition_problems)
         }
     })
 })

@@ -11,19 +11,20 @@ const store = useStore()
 
 const question = ref('')
 
-const getState = () => {
-    let store_question = store.state.tasks.questions_list.find((el)=>{return el.id === Number(router.params.id)})
-    if (store_question.legend === undefined && router.params.id ){
-        console.log("load")
+const getCurrent = () => {
+    let store_question = store.state.tasks.questions_list.find((el) => {
+        return el.id === Number(router.params.id)
+    })
+    if (store_question.legend === undefined && router.params.id) {
         axios.get(URL + "/get_question/" + router.params.id + "/" + JSON.parse(localStorage.getItem("user")).id).then((response) => {
             question.value = response.data.question
-            if(question.value.answer){
-                question.value.answer = question.value.answer.slice(0, question.value.answer.length-1)
+            if (question.value.answer) {
+                question.value.answer = question.value.answer.slice(0, question.value.answer.length - 1)
                 question_ans.value = question.value.answer
             }
-            store.commit('update_singe_question', {'id': question.value.id,'new_value': question.value})
+            store.commit('update_singe_question', {'id': question.value.id, 'new_value': question.value})
         })
-    }else{
+    } else {
         question.value = store_question
         question_ans.value = question.value.answer
     }
@@ -32,18 +33,19 @@ const getState = () => {
 const question_ans = ref()
 const updateQuestion = () => {
     if (store.state.tasks.questions_list.length === 0 && router.params.c_id) {
-        axios.get(URL+"/get/if/competition_question/competition_id="+router.params.c_id).then((response)=> {
-            if (store.state.tasks.questions_list.length === 0){
-                store.commit("set_questions_list", response.data.competition_problems)
+        axios.get(URL + "/get/if/competition_question/competition_id=" + router.params.c_id).then((response) => {
+            if (store.state.tasks.questions_list.length === 0) {
+                store.commit("set_questions_list", response.data.competition_questions)
             }
-            getState()
+            getCurrent()
         })
-    }
-    else{
-        getState()
+    } else {
+        getCurrent()
     }
 }
-onBeforeMount(updateQuestion);
+onBeforeMount(() => {
+    updateQuestion()
+});
 watch(router, () => {
     updateQuestion()
 })
@@ -73,7 +75,7 @@ const Submit = () => {
     }).then((response) => {
         question.value.sent = true
         question.value.answer = question_ans.value
-        store.commit('update_singe_question', {'id': question.value.id,'new_value': question.value})
+        store.commit('update_singe_question', {'id': question.value.id, 'new_value': question.value})
     })
 }
 
