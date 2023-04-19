@@ -13,7 +13,7 @@ const question = ref('')
 
 const getState = () => {
     let store_question = store.state.tasks.questions_list.find((el)=>{return el.id === Number(router.params.id)})
-    if (store_question.legend === undefined){
+    if (store_question.legend === undefined && router.params.id ){
         console.log("load")
         axios.get(URL + "/get_question/" + router.params.id + "/" + JSON.parse(localStorage.getItem("user")).id).then((response) => {
             question.value = response.data.question
@@ -31,8 +31,8 @@ const getState = () => {
 
 const question_ans = ref()
 const updateQuestion = () => {
-    if (store.state.tasks.questions_list.length === 0) {
-        axios.get(URL+"/get/if/competition_problem/competition_id="+router.params.c_id).then((response)=> {
+    if (store.state.tasks.questions_list.length === 0 && router.params.c_id) {
+        axios.get(URL+"/get/if/competition_question/competition_id="+router.params.c_id).then((response)=> {
             if (store.state.tasks.questions_list.length === 0){
                 store.commit("set_questions_list", response.data.competition_problems)
             }
@@ -42,8 +42,6 @@ const updateQuestion = () => {
     else{
         getState()
     }
-
-
 }
 onBeforeMount(updateQuestion);
 watch(router, () => {
