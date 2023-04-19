@@ -32,15 +32,13 @@ const GetCurrent = (force = false) => {
             store.commit("update_single_problem", {id: task.value.id, "new_value": task.value})
         })
     } else {
-        task.value = store_problem
+        task.value = store_problem.value
     }
 }
 const updateProblemsList = () => {
-    if (store.state.tasks.problems_list.length === 0 && router.params.c_id) {
-        axios.get(URL + "/get/if/competition_question/competition_id=" + router.params.c_id).then((response) => {
-            if (store.state.tasks.problems_list.length === 0) {
-                store.commit("set_problems_list", response.data.competition_problems)
-            }
+    if (store.state.tasks.problems_list.length === 0) {
+        axios.get(URL + "/get/if/competition_problem/competition_id=" + router.params.c_id).then((response) => {
+            store.commit("set_problems_list", response.data.competition_problems)
             GetCurrent()
         })
     } else {
@@ -53,6 +51,7 @@ onBeforeMount(() => {
 watch(router, () => {
     updateProblemsList()
 })
+
 
 </script>
 
@@ -102,9 +101,9 @@ watch(router, () => {
         </div>
     </div>
     <div v-else>
-        Страница загружается, выберите другую задачу из списка
+        Перезагрузите страницу что бы получить текст задачи
     </div>
-    <SendSubmission :task_id="router.params.id" @reget-problem="()=>{console.log('some')}"/>
+    <SendSubmission :task_id="router.params.id" @reGet="GetCurrent(true)"/>
 </template>
 
 <style scoped>
