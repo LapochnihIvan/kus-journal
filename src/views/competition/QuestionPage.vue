@@ -32,7 +32,7 @@ const getCurrent = () => {
 
 const question_ans = ref()
 const updateQuestion = () => {
-    if (store.state.tasks.questions_list.length === 0 && router.params.c_id) {
+    if (store.state.tasks.questions_list.length === 0) {
         axios.get(URL + "/get/if/competition_question/competition_id=" + router.params.c_id).then((response) => {
             if (store.state.tasks.questions_list.length === 0) {
                 store.commit("set_questions_list", response.data.competition_questions)
@@ -47,7 +47,10 @@ onBeforeMount(() => {
     updateQuestion()
 });
 watch(router, () => {
-    updateQuestion()
+    if (router.name === "question_page"){
+        updateQuestion()
+    }
+
 })
 const question_label = computed(() => {
     switch (question.value.type) {

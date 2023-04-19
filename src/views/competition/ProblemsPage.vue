@@ -19,7 +19,7 @@ const sort_by_date = (a, b) => {
         return 0;
     }
 }
-const task = ref();
+
 
 const GetCurrent = (force = false) => {
     let store_problem = store.state.tasks.problems_list.find((el) => {
@@ -27,12 +27,11 @@ const GetCurrent = (force = false) => {
     })
     if (!store_problem.legend || force) {
         axios.get(URL + "/get_problem/" + router.params.id + "/" + JSON.parse(localStorage.getItem("user")).id).then((response) => {
-            console.log(response.data)
             task.value = response.data.problem[0]
             store.commit("update_single_problem", {id: task.value.id, "new_value": task.value})
         })
     } else {
-        task.value = store_problem.value
+        task.value = store_problem
     }
 }
 const updateProblemsList = () => {
@@ -45,11 +44,16 @@ const updateProblemsList = () => {
         GetCurrent()
     }
 }
+const task = ref();
+
 onBeforeMount(() => {
     updateProblemsList();
 })
 watch(router, () => {
-    updateProblemsList()
+    if (router.name === "problem_page"){
+        updateProblemsList()
+    }
+
 })
 
 
