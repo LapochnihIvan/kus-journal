@@ -20,7 +20,7 @@ const result = {
         <thead>
         <tr>
             <th scope="col" style="width: 30%" class="border-end">Тест</th>
-            <th scope="col">Ведрдикт</th>
+            <th scope="col">Вердикт</th>
         </tr>
         </thead>
         <tbody>
