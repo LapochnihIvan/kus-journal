@@ -37,8 +37,12 @@ const GetCurrent = (force = false) => {
 const updateProblemsList = () => {
     if (store.state.tasks.problems_list.length === 0) {
         axios.get(URL + "/get/if/competition_problem/competition_id=" + router.params.c_id).then((response) => {
+            // console.log("Response get me: ", response.data)
+            response.data.competition_problems.forEach((el) => {
+                el.id = el.problem_id
+            })
             store.commit("set_problems_list", response.data.competition_problems)
-            GetCurrent()
+            GetCurrent();
         })
     } else {
         GetCurrent()
@@ -50,7 +54,7 @@ onBeforeMount(() => {
     updateProblemsList();
 })
 watch(router, () => {
-    if (router.name === "problem_page"){
+    if (router.name === "problem_page") {
         updateProblemsList()
     }
 

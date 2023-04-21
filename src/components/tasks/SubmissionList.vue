@@ -30,7 +30,7 @@ const result = {
         </tr>
         </tbody>
     </table>
-    <p class="text-secondary">Для того что бы обновить состояние тестов обновите страницу</p>
+    <p class="text-secondary">Для того что бы обновить состояние тестов перезагрузите страницу</p>
 </template>
 
 
