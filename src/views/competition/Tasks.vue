@@ -31,7 +31,7 @@ onMounted(()=>{
     <div class="py-3 h-100">
         <div class="row h-100">
             <div class="col-2 border-end border-dark-subtle h-100">
-                <h4 class="mb-3 px-3 pb-3 border-bottom">Kus.Olimp</h4>
+                <h4 class="mb-3 px-3 pb-3 border-bottom">Kus.Olymp</h4>
                 <TasksList/>
             </div>
             <div class="col-10 h-100">
