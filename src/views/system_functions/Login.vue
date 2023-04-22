@@ -22,7 +22,6 @@ function login() {
       "password": password.value
     }
   }).then((response) => {
-    console.log(response.data)
     localStorage.setItem("user", JSON.stringify(response.data.user));
     router.push({name: "homepage"});
   }).catch(() => {
