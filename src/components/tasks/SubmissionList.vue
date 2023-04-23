@@ -12,6 +12,9 @@ const result = {
     "WA": "Неправильный ответ",
     "OK": "Полное решение"
 }
+const reload = ()=>{
+    location.reload()
+}
 </script>
 
 <template>
@@ -30,8 +33,7 @@ const result = {
         </tr>
         </tbody>
     </table>
-    <p class="text-secondary">Для того что бы обновить состояние тестов перезагрузите страницу</p>
-    <p class="text-secondary">Если решение пропало, после того как было отображено в таблице, оно все равно учтено</p>
+    <p class="text-secondary">Для того что бы обновить состояние тестов <a @click="reload" href="#">перезагрузите</a> страницу</p>
 </template>
 
 

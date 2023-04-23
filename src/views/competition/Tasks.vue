@@ -38,6 +38,9 @@ onMounted(()=>{
                 <div class="alert alert-info">
                     Для связи с организаторами пишите в <a href="https://t.me/kussystembot">техподдержку</a>
                 </div>
+                <div class="alert alert-info">
+                    Все решения посланные после 19:00 по МСК не будут учитываться при подсчете баллов
+                </div>
                 <!--        <div class="alert alert-info">-->
                 <!--          Система может проверять задания достаточно долго-->
                 <!--        </div>-->
