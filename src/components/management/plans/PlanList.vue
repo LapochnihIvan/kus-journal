@@ -12,7 +12,7 @@ const store = useStore()
 const plans = ref([])
 
 const getPlans = ()=>{
-  axios.get(URL + "/get/all/plan[*;subject_id[*]]").then((response) => {
+  axios.get(URL + "/get/all/plan[*/subject_id[*]]").then((response) => {
     plans.value = response.data.plans.sort((el1, el2)=>{
       if (el1.name>el2.name){
         return 1

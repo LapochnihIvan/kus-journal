@@ -5,7 +5,7 @@ import {URL} from "@/utils/config"
 
 const competitions = ref()
 
-axios.get(URL + "/get/if/user_competition[competition_id[id;name;start_time]]/user_id=" + JSON.parse(localStorage.getItem("user")).id).then((response) => {
+axios.get(URL + "/get/if/user_competition[competition_id[id/name/start_time]]/user_id=" + JSON.parse(localStorage.getItem("user")).id).then((response) => {
     competitions.value = response.data;
     competitions.value.user_competitions.forEach((el) => {
         el.competition.start_time = new Date(el.competition.start_time)

@@ -17,7 +17,7 @@ const GetPriority = (name) => {
   return name
 }
 const GetGrade = ()=>{
-  axios.get(URL + '/get/all/grade[*;head_id[id;name;surname;role_id]]').then((response) => {
+  axios.get(URL + '/get/all/grade[*/head_id[id/name/surname/role_id]]').then((response) => {
     grades.value = response.data.grades
     grades.value.sort((f, s) => {
       if (GetPriority(f.name) > GetPriority(s.name)) {

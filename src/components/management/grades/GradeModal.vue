@@ -13,7 +13,7 @@ const staff = ref([])
 const students = ref([])
 const store = useStore()
 
-axios.get(URL + '/get/all/user[id;name;surname;role_id]').then((response) => {
+axios.get(URL + '/get/all/user[id/name/surname/role_id]').then((response) => {
   staff.value = response.data.users.filter((user) => {
     return !user.role.includes("student")
   });
@@ -33,7 +33,7 @@ const selected_teacher = ref('')
 
 watch(props, () => {
   if (props.grade.id !== undefined) {
-    axios.get(URL + '/get/by_id/grade(grade_student[student_id[name;surname;id;role_id]])[*;head_id[id;name;surname;role_id]]/' + props.grade.id).then((response) => {
+    axios.get(URL + '/get/by_id/grade(grade_student[student_id[name/surname/id/role_id]])[*/head_id[id/name/surname/role_id]]/' + props.grade.id).then((response) => {
       current_grade.id = response.data.grade.id
       current_grade.name = response.data.grade.name
       current_grade.head = response.data.grade.head

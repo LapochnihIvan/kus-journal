@@ -14,7 +14,7 @@ const grades = ref([])
 const store = useStore()
 
 const getJournals = ()=>{
-  axios.get(URL + "/get/if/journal_table[*;teacher_id[*];plan_id[*];group_id[*]]/methodist_id="+JSON.parse(localStorage.getItem("user")).id).then(response => {
+  axios.get(URL + "/get/if/journal_table[*/teacher_id[*]/plan_id[*]/group_id[*]]/methodist_id="+JSON.parse(localStorage.getItem("user")).id).then(response => {
     journals.value = response.data.journal_tables
     journals.value.forEach((journal)=>{
       journal.to_delete = false
